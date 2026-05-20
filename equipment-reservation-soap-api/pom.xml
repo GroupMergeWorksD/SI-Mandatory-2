@@ -82,6 +82,7 @@
                 <includes>
                     <include>**/*.xml</include>
                     <include>**/*.properties</include>
+                    <include>**/*.xsd</include>
                 </includes>
             </resource>
         </resources>
@@ -112,6 +113,27 @@
                             <version>${lombok.version}</version>
                         </path>
                     </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>generate-soap-classes</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <sources>
+                        <source>${project.basedir}/src/main/resources/xsd/equipment-reservation.xsd</source>
+                    </sources>
+                    <packageName>com.groupmergeworks.sirmeows.soap</packageName>
+                    <clearOutputDir>false</clearOutputDir>
                 </configuration>
             </plugin>
             <plugin>
