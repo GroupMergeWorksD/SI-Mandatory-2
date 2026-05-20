@@ -22,6 +22,8 @@
         <mysql.version>9.6.0</mysql.version>
         <h2.version>2.4.240</h2.version>
         <lombok.version>1.18.42</lombok.version>
+        <modelmapper.version>3.2.6</modelmapper.version>
+        <wsdl4j.version>1.6.3</wsdl4j.version>
     </properties>
 
     <dependencies>
@@ -70,6 +72,23 @@
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>${h2.version}</version>
+        </dependency>
+
+        <!-- ModelMapper -->
+        <!-- https://mvnrepository.com/artifact/org.modelmapper/modelmapper -->
+        <dependency>
+            <groupId>org.modelmapper</groupId>
+            <artifactId>modelmapper</artifactId>
+            <version>${modelmapper.version}</version>
+        </dependency>
+
+        <!-- Generate WSDL from WebServiceConfig at compile time -->
+        <!-- Source: https://mvnrepository.com/artifact/wsdl4j/wsdl4j -->
+        <dependency>
+            <groupId>wsdl4j</groupId>
+            <artifactId>wsdl4j</artifactId>
+            <version>${wsdl4j.version}</version>
+            <scope>compile</scope>
         </dependency>
 
     </dependencies>
@@ -130,7 +149,7 @@
                 </executions>
                 <configuration>
                     <sources>
-                        <source>${project.basedir}/src/main/resources/xsd/equipment-reservation.xsd</source>
+                        <source>${project.basedir}/src/main/resources/xsd/equipment-reservation-soap-api.xsd</source>
                     </sources>
                     <packageName>com.groupmergeworks.sirmeows.soap</packageName>
                     <clearOutputDir>false</clearOutputDir>

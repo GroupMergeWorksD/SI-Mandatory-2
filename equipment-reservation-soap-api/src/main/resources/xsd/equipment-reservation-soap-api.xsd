@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-           targetNamespace="http://groupmergeworks.com/sirmeows/equipment-reservation"
-           xmlns:tns="http://groupmergeworks.com/sirmeows/equipment-reservation"
+           targetNamespace="http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api"
+           xmlns:tns="http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api"
            elementFormDefault="qualified">
 
     <xs:element name="createReservationRequest">
