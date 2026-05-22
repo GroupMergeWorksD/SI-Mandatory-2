@@ -10,13 +10,14 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
+import java.time.OffsetDateTime;
 import java.util.UUID;
+
+import static com.groupmergeworks.sirmeows.config.SoapConstants.NAMESPACE_URI;
 
 @Endpoint
 @RequiredArgsConstructor
 public class EquipmentReservationEndpoint {
-
-    private static final String NAMESPACE_URI = "http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api";
 
     private final EquipmentReservationService equipmentReservationService;
     private final ModelMapper modelMapper;
@@ -25,7 +26,10 @@ public class EquipmentReservationEndpoint {
     @ResponsePayload
     public CreateReservationResponse createReservation(@RequestPayload CreateReservationRequest request) {
         var equipmentId = UUID.fromString(request.getEquipmentId());
-        var reservation = equipmentReservationService.createReservation(equipmentId);
+        var startTime = modelMapper.map(request.getStartTime(), OffsetDateTime.class);
+        var endTime = modelMapper.map(request.getEndTime(), OffsetDateTime.class);
+
+        var reservation = equipmentReservationService.createReservation(equipmentId, startTime, endTime);
 
         return modelMapper.map(reservation, CreateReservationResponse.class);
     }

@@ -15,23 +15,21 @@ import org.springframework.xml.xsd.XsdSchema;
 @Configuration
 public class WebServiceConfig {
 
-    private static final String NAMESPACE_URI = "http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api";
-
     @Bean
     public ServletRegistrationBean<MessageDispatcherServlet> messageDispatcherServlet(ApplicationContext applicationContext) {
         var servlet = new MessageDispatcherServlet();
         servlet.setApplicationContext(applicationContext);
         servlet.setTransformWsdlLocations(true);
 
-        return new ServletRegistrationBean<>(servlet, "/ws/*");
+        return new ServletRegistrationBean<>(servlet, SoapConstants.WS_PATH_PATTERN);
     }
 
-    @Bean(name = "equipment-reservation-soap-api")
+    @Bean(name = SoapConstants.API_NAME)
     public DefaultWsdl11Definition defaultWsdl11Definition(XsdSchema equipmentReservationSchema) {
         var definition = new DefaultWsdl11Definition();
-        definition.setPortTypeName("EquipmentReservationPort");
-        definition.setLocationUri("/ws");
-        definition.setTargetNamespace(NAMESPACE_URI);
+        definition.setPortTypeName(SoapConstants.PORT_TYPE_NAME);
+        definition.setLocationUri(SoapConstants.WS_PATH);
+        definition.setTargetNamespace(SoapConstants.NAMESPACE_URI);
         definition.setSchema(equipmentReservationSchema);
 
         return definition;
@@ -39,6 +37,6 @@ public class WebServiceConfig {
 
     @Bean
     public XsdSchema equipmentReservationSchema() {
-        return new SimpleXsdSchema(new ClassPathResource("xsd/equipment-reservation-soap-api.xsd"));
+        return new SimpleXsdSchema(new ClassPathResource(SoapConstants.XSD_PATH));
     }
 }

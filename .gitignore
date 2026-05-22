@@ -52,3 +52,6 @@ src/main/resources/application.properties
 # agent instructions
 AGENTS.md
 
+# assignment pdf
+**/si-mand-assignment-2.pdf
+

@@ -1,9 +1,8 @@
 package com.groupmergeworks.sirmeows.domain;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,5 +21,13 @@ public class Equipment {
     @JdbcTypeCode(SqlTypes.CHAR) // UUID is stored as a CHAR(36) in the database instead of a BINARY(16) for demonstration purposes
     private UUID id;
 
+    @NotBlank
+    @Column(nullable = false)
+    private String name;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private EquipmentStatus status;
 
 }

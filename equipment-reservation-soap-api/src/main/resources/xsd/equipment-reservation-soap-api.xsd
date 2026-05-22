@@ -8,6 +8,8 @@
         <xs:complexType>
             <xs:sequence>
                 <xs:element name="equipmentId" type="xs:string"/>
+                <xs:element name="startTime" type="xs:dateTime"/>
+                <xs:element name="endTime" type="xs:dateTime"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -15,17 +17,45 @@
     <xs:element name="createReservationResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="reservationId" type="xs:string"/>
-                <xs:element name="equipmentId" type="xs:string"/>
+                <xs:element name="reservation" type="tns:reservation"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
+
+    <xs:complexType name="equipment">
+        <xs:sequence>
+            <xs:element name="equipmentId" type="xs:string"/>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="status" type="tns:equipmentStatus"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="reservation">
+        <xs:sequence>
+            <xs:element name="reservationId" type="xs:string"/>
+            <xs:element name="equipment" type="tns:equipment"/>
+            <xs:element name="startTime" type="xs:dateTime"/>
+            <xs:element name="endTime" type="xs:dateTime"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="equipmentStatus">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="ACTIVE"/>
+            <xs:enumeration value="MAINTENANCE"/>
+            <xs:enumeration value="RETIRED"/>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:element name="equipmentNotFoundFault" type="tns:faultDetail"/>
 
     <xs:element name="reservationNotFoundFault" type="tns:faultDetail"/>
 
     <xs:element name="reservationConflictFault" type="tns:faultDetail"/>
+
+    <xs:element name="equipmentUnavailableFault" type="tns:faultDetail"/>
+
+    <xs:element name="invalidReservationTimeFault" type="tns:faultDetail"/>
 
     <xs:complexType name="faultDetail">
         <xs:sequence>
