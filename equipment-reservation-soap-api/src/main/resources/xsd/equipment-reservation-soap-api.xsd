@@ -21,4 +21,17 @@
         </xs:complexType>
     </xs:element>
 
+    <xs:element name="equipmentNotFoundFault" type="tns:faultDetail"/>
+
+    <xs:element name="reservationNotFoundFault" type="tns:faultDetail"/>
+
+    <xs:element name="reservationConflictFault" type="tns:faultDetail"/>
+
+    <xs:complexType name="faultDetail">
+        <xs:sequence>
+            <xs:element name="message" type="xs:string"/>
+            <xs:element name="resourceId" type="xs:string" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
 </xs:schema>
