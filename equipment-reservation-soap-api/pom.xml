@@ -55,7 +55,7 @@
             <optional>true</optional>
         </dependency>
 
-        <!-- Database -->
+        <!-- Persistence -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -82,7 +82,7 @@
             <version>${modelmapper.version}</version>
         </dependency>
 
-        <!-- Generate WSDL from WebServiceConfig at compile time -->
+        <!-- Runtime support for Spring-WS WSDL generation -->
         <!-- Source: https://mvnrepository.com/artifact/wsdl4j/wsdl4j -->
         <dependency>
             <groupId>wsdl4j</groupId>
@@ -102,6 +102,7 @@
                     <include>**/*.xml</include>
                     <include>**/*.properties</include>
                     <include>**/*.xsd</include>
+                    <include>**/*.sql</include>
                 </includes>
             </resource>
         </resources>
@@ -134,6 +135,7 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+            <!-- Generate SOAP DTOs from XSD -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jaxb2-maven-plugin</artifactId>
