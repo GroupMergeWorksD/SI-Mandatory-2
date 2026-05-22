@@ -1,0 +1,48 @@
+{
+  "info": {
+    "name": "equipment-reservation-soap-api",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8082"
+    },
+    {
+      "key": "equipmentId",
+      "value": "79a7d791-b72a-4083-a87e-7290d860cc66"
+    }
+  ],
+  "item": [
+    {
+      "name": "create-reservation",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "text/xml; charset=utf-8"
+          },
+          {
+            "key": "Accept",
+            "value": "text/xml"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/ws",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "ws"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <res:createReservationRequest>\n         <res:equipmentId>{{equipmentId}}</res:equipmentId>\n      </res:createReservationRequest>\n   </soapenv:Body>\n</soapenv:Envelope>"
+        }
+      },
+      "response": []
+    }
+  ]
+}

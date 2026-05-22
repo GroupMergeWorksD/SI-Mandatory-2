@@ -1,0 +1,18 @@
+INSERT INTO equipment (id) VALUES
+('8f6c7bbd-3f1f-4b6f-9bcb-84db99411f2a'),
+('e3e4f267-5e88-4505-bad1-4a99c2b6050d'),
+('9a822a38-9151-4431-86f7-22ee16a0df86'),
+('e24f6d98-645d-40f9-8f49-25ef49fb5d08'),
+('f8b0f702-9c34-497a-9d61-57e235f409d1'),
+('79a7d791-b72a-4083-a87e-7290d860cc66'),
+('7ce02206-c8bb-4560-a60e-81421c559848'),
+('a8f6ec78-c765-4c23-a6b6-f25c34635269'),
+('be24c9d7-f118-4e5b-8d47-4656a01311b9'),
+('2bbd44ad-9728-439c-bc26-0119fd9d76be');
+
+INSERT INTO reservation (id, equipment_id) VALUES
+('2d8f4162-2b85-48d1-8b59-d2be0a6e512a', '8f6c7bbd-3f1f-4b6f-9bcb-84db99411f2a'),
+('64f23768-2b8a-44f5-83d9-6a2e3c85daba', 'e3e4f267-5e88-4505-bad1-4a99c2b6050d'),
+('2a080bf3-d457-4b70-bbe5-96ef56ce626e', '9a822a38-9151-4431-86f7-22ee16a0df86'),
+('e7950745-5df0-4f64-bf44-4f0df07f2413', 'e24f6d98-645d-40f9-8f49-25ef49fb5d08'),
+('ad5b4c5f-d43e-4f79-89db-777f2e7cc2ca', 'f8b0f702-9c34-497a-9d61-57e235f409d1');
