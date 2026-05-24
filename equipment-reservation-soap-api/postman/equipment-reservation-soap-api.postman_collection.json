@@ -410,6 +410,57 @@
         }
       },
       "response": []
+    },
+    {
+      "name": "list-reservations-success",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"returns HTTP 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"returns seeded reservations\", function () {",
+              "    const body = pm.response.text();",
+              "    pm.expect(body).to.include(pm.collectionVariables.get(\"existingReservationId\"));",
+              "    pm.expect(body).to.include(pm.collectionVariables.get(\"bookedEquipmentId\"));",
+              "    pm.expect(body).to.include(\"Projector A\");",
+              "    pm.expect(body).to.not.include(\"<SOAP-ENV:Fault>\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "text/xml; charset=utf-8"
+          },
+          {
+            "key": "Accept",
+            "value": "text/xml"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/ws",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "ws"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <res:listReservationsRequest/>\n   </soapenv:Body>\n</soapenv:Envelope>"
+        }
+      },
+      "response": []
     }
   ]
 }

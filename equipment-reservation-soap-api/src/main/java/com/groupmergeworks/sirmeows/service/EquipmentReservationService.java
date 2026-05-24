@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -19,6 +20,10 @@ public class EquipmentReservationService {
     private final EquipmentRepository equipmentRepository;
     private final ReservationRepository reservationRepository;
 
+
+    public List<Reservation> getReservations() {
+        return reservationRepository.findAll();
+    }
     public Reservation getReservation(UUID reservationId) {
         return reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new ReservationNotFoundException("Reservation not found: " + reservationId));
