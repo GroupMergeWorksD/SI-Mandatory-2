@@ -29,6 +29,12 @@ public class EquipmentReservationService {
                 .orElseThrow(() -> new ReservationNotFoundException("Reservation not found: " + reservationId));
     }
 
+    public UUID deleteReservation(UUID reservationId) {
+         var reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new ReservationNotFoundException("Reservation not found: " + reservationId));
+         reservationRepository.delete(reservation);
+         return reservation.getId();
+    }
+
     public Reservation createReservation(UUID equipmentId, OffsetDateTime startTime, OffsetDateTime endTime) {
         var equipment = equipmentRepository.findById(equipmentId)
                 .orElseThrow(() -> new EquipmentNotFoundException("Equipment not found: " + equipmentId));

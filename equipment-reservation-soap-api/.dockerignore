@@ -3,3 +3,8 @@ __pycache__
 *.pyc
 .git
 .gitignore
+.idea
+target
+docs
+postman
+si-mand-assignment-2.pdf

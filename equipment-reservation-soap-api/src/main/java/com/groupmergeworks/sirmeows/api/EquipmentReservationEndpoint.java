@@ -3,6 +3,8 @@ package com.groupmergeworks.sirmeows.api;
 import com.groupmergeworks.sirmeows.service.EquipmentReservationService;
 import com.groupmergeworks.sirmeows.soap.CreateReservationRequest;
 import com.groupmergeworks.sirmeows.soap.CreateReservationResponse;
+import com.groupmergeworks.sirmeows.soap.DeleteReservationRequest;
+import com.groupmergeworks.sirmeows.soap.DeleteReservationResponse;
 import com.groupmergeworks.sirmeows.soap.GetReservationRequest;
 import com.groupmergeworks.sirmeows.soap.GetReservationResponse;
 import com.groupmergeworks.sirmeows.soap.ListReservationsRequest;
@@ -53,5 +55,14 @@ public class EquipmentReservationEndpoint {
         var reservations = equipmentReservationService.getReservations();
 
         return modelMapper.map(reservations, ListReservationsResponse.class);
+    }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "deleteReservationRequest")
+    @ResponsePayload
+    public DeleteReservationResponse deleteReservation(@RequestPayload DeleteReservationRequest request) {
+        var reservationId = UUID.fromString(request.getReservationId());
+        var deletedReservationId = equipmentReservationService.deleteReservation(reservationId);
+
+        return modelMapper.map(deletedReservationId, DeleteReservationResponse.class);
     }
 }

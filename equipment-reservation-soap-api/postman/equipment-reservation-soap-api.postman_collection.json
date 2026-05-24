@@ -25,6 +25,10 @@
       "value": "2d8f4162-2b85-48d1-8b59-d2be0a6e512a"
     },
     {
+      "key": "deleteReservationId",
+      "value": "ad5b4c5f-d43e-4f79-89db-777f2e7cc2ca"
+    },
+    {
       "key": "missingEquipmentId",
       "value": "11111111-1111-4111-8111-111111111111"
     },
@@ -458,6 +462,105 @@
         "body": {
           "mode": "raw",
           "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <res:listReservationsRequest/>\n   </soapenv:Body>\n</soapenv:Envelope>"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "delete-reservation-success",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"returns HTTP 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"returns deleted reservation id\", function () {",
+              "    const body = pm.response.text();",
+              "    pm.expect(body).to.include(pm.collectionVariables.get(\"deleteReservationId\"));",
+              "    pm.expect(body).to.not.include(\"<SOAP-ENV:Fault>\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "text/xml; charset=utf-8"
+          },
+          {
+            "key": "Accept",
+            "value": "text/xml"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/ws",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "ws"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <res:deleteReservationRequest>\n         <res:reservationId>{{deleteReservationId}}</res:reservationId>\n      </res:deleteReservationRequest>\n   </soapenv:Body>\n</soapenv:Envelope>"
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "delete-reservation-not-found",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
+              "    pm.response.to.have.status(500);",
+              "});",
+              "",
+              "pm.test(\"returns reservation not found fault\", function () {",
+              "    const body = pm.response.text();",
+              "    pm.expect(body).to.include(\"<SOAP-ENV:Fault>\");",
+              "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
+              "    pm.expect(body).to.include(\"Reservation not found\");",
+              "});"
+            ],
+            "type": "text/javascript"
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "text/xml; charset=utf-8"
+          },
+          {
+            "key": "Accept",
+            "value": "text/xml"
+          }
+        ],
+        "url": {
+          "raw": "{{baseUrl}}/ws",
+          "host": [
+            "{{baseUrl}}"
+          ],
+          "path": [
+            "ws"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <res:deleteReservationRequest>\n         <res:reservationId>{{missingReservationId}}</res:reservationId>\n      </res:deleteReservationRequest>\n   </soapenv:Body>\n</soapenv:Envelope>"
         }
       },
       "response": []
