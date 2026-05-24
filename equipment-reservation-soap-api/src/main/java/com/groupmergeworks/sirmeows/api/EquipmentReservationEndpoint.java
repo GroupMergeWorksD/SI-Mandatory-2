@@ -3,6 +3,8 @@ package com.groupmergeworks.sirmeows.api;
 import com.groupmergeworks.sirmeows.service.EquipmentReservationService;
 import com.groupmergeworks.sirmeows.soap.CreateReservationRequest;
 import com.groupmergeworks.sirmeows.soap.CreateReservationResponse;
+import com.groupmergeworks.sirmeows.soap.GetReservationRequest;
+import com.groupmergeworks.sirmeows.soap.GetReservationResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
@@ -32,5 +34,14 @@ public class EquipmentReservationEndpoint {
         var reservation = equipmentReservationService.createReservation(equipmentId, startTime, endTime);
 
         return modelMapper.map(reservation, CreateReservationResponse.class);
+    }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getReservationRequest")
+    @ResponsePayload
+    public GetReservationResponse getReservation(@RequestPayload GetReservationRequest request) {
+        var reservationId = UUID.fromString(request.getReservationId());
+        var reservation = equipmentReservationService.getReservation(reservationId);
+
+        return modelMapper.map(reservation, GetReservationResponse.class);
     }
 }

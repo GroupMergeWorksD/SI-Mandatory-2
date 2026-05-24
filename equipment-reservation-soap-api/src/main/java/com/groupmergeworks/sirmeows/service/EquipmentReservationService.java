@@ -3,10 +3,7 @@ package com.groupmergeworks.sirmeows.service;
 import com.groupmergeworks.sirmeows.domain.Equipment;
 import com.groupmergeworks.sirmeows.domain.EquipmentStatus;
 import com.groupmergeworks.sirmeows.domain.Reservation;
-import com.groupmergeworks.sirmeows.exception.EquipmentNotFoundException;
-import com.groupmergeworks.sirmeows.exception.EquipmentUnavailableException;
-import com.groupmergeworks.sirmeows.exception.InvalidReservationTimeException;
-import com.groupmergeworks.sirmeows.exception.ReservationConflictException;
+import com.groupmergeworks.sirmeows.exception.*;
 import com.groupmergeworks.sirmeows.repository.EquipmentRepository;
 import com.groupmergeworks.sirmeows.repository.ReservationRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +18,11 @@ public class EquipmentReservationService {
 
     private final EquipmentRepository equipmentRepository;
     private final ReservationRepository reservationRepository;
+
+    public Reservation getReservation(UUID reservationId) {
+        return reservationRepository.findById(reservationId)
+                .orElseThrow(() -> new ReservationNotFoundException("Reservation not found: " + reservationId));
+    }
 
     public Reservation createReservation(UUID equipmentId, OffsetDateTime startTime, OffsetDateTime endTime) {
         var equipment = equipmentRepository.findById(equipmentId)

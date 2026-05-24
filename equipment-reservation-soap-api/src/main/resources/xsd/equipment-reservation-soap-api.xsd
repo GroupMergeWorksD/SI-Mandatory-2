@@ -22,6 +22,52 @@
         </xs:complexType>
     </xs:element>
 
+    <xs:element name="getReservationRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="reservationId" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getReservationResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="reservation" type="tns:reservation"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="listReservationsRequest">
+        <xs:complexType>
+            <xs:sequence/>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="listReservationsResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="reservation" type="tns:reservation" minOccurs="0" maxOccurs="unbounded"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="deleteReservationRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="reservationId" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="deleteReservationResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="reservationId" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
     <xs:complexType name="equipment">
         <xs:sequence>
             <xs:element name="equipmentId" type="xs:string"/>

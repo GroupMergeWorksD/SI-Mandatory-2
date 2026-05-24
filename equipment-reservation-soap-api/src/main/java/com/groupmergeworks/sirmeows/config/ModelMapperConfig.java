@@ -3,6 +3,7 @@ package com.groupmergeworks.sirmeows.config;
 import com.groupmergeworks.sirmeows.domain.Reservation;
 import com.groupmergeworks.sirmeows.soap.CreateReservationResponse;
 import com.groupmergeworks.sirmeows.soap.Equipment;
+import com.groupmergeworks.sirmeows.soap.GetReservationResponse;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
@@ -53,6 +54,7 @@ public class ModelMapperConfig {
                 });
 
         modelMapper.addConverter(reservationToCreateReservationResponseConverter(modelMapper));
+        modelMapper.addConverter(reservationToGetReservationResponseConverter(modelMapper));
     }
 
     private void addEquipmentMappings(ModelMapper modelMapper) {
@@ -72,6 +74,18 @@ public class ModelMapperConfig {
             }
 
             var response = new CreateReservationResponse();
+            response.setReservation(modelMapper.map(context.getSource(), com.groupmergeworks.sirmeows.soap.Reservation.class));
+            return response;
+        };
+    }
+
+    private Converter<Reservation, GetReservationResponse> reservationToGetReservationResponseConverter(ModelMapper modelMapper) {
+        return context -> {
+            if (context.getSource() == null) {
+                return null;
+            }
+
+            var response = new GetReservationResponse();
             response.setReservation(modelMapper.map(context.getSource(), com.groupmergeworks.sirmeows.soap.Reservation.class));
             return response;
         };
