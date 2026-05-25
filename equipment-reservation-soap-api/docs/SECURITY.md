@@ -20,6 +20,10 @@ Database credentials are provided at runtime through environment variables. The 
 
 Domain errors are handled as SOAP faults instead of leaking Java stack traces to the client. Exceptions such as missing equipment, missing reservations, invalid reservation times, equipment unavailability, and reservation conflicts are mapped to SOAP client faults with clear fault strings.
 
+## UUID Identifiers
+
+Reservations and equipment use UUID identifiers instead of sequential numeric IDs. UUIDs are not practically guessable in normal use, which reduces the risk of clients discovering resources by simply incrementing IDs. The chance of UUID collisions is also negligible for this project.
+
 ## Authentication and Authorization
 
 Authentication and authorization are outside the scope of this SOAP API slice. If they were required, they would normally be handled with SOAP-oriented security mechanisms such as WS-Security for credentials, signatures, and message-level security, combined with application-level authorization checks before returning or changing protected resources.
