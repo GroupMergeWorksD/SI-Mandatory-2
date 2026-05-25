@@ -12,12 +12,18 @@ Multi-service system for the mandatory assignment.
 
 ## Docker
 
-The applications and their dependencies are dockerized, so no local database or service installation is needed. Create a local `.env` file using `dotenv-template` as reference, then start the system with Docker Compose.
+The applications and their dependencies are dockerized, so no local database or service installation is needed. Create a local `.env` file using `dotenv-template` as reference, then start the system with Docker Compose from parent repo.
 
-From the parent repo:
+To start the system:
+```bash
+docker compose up -d
+```
+
+To do a clean restart including database reset:
 
 ```bash
-docker compose up --build
+docker compose down -v
+docker compose up --build -d
 ```
 
 NOTE: Never check the .env file into git!
