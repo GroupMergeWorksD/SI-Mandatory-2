@@ -26,8 +26,6 @@ docker compose down -v
 docker compose up --build -d
 ```
 
-NOTE: Never check the .env file into git!
-
 ## REST API
 
 ## SOAP API
