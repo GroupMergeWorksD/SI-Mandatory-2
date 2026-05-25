@@ -1,0 +1,39 @@
+enum TaskStatus {
+    TODO
+    DOING
+    DONE
+}
+
+type User {
+    id: ID!
+    name: String!
+}
+
+type Project {
+    id: ID!
+    name: String!
+}
+
+type Task {
+    id: ID!
+    title: String!
+    status: TaskStatus!
+    project: Project!
+    assignee: User
+}
+
+input CreateTaskInput {
+    projectId: ID!
+    title: String!
+    assigneeId: ID
+}
+
+type Query {
+    projects: [Project!]!
+    tasks(projectId: ID!, status: TaskStatus): [Task!]!
+}
+
+type Mutation {
+    createTask(input: CreateTaskInput!): Task!
+    updateTaskStatus(taskId: ID!, status: TaskStatus!): Task!
+}
