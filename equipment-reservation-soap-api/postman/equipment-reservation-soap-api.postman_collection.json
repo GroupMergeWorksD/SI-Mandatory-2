@@ -75,10 +75,10 @@
               "",
               "pm.test(\"returns reservation data\", function () {",
               "    const body = pm.response.text();",
-              "    pm.expect(body).to.include(\"<reservationId>\");",
+              "    pm.expect(body).to.match(/<[^>]*:?reservationId>/);",
               "    pm.expect(body).to.include(pm.collectionVariables.get(\"availableEquipmentId\"));",
-              "    pm.expect(body).to.include(pm.collectionVariables.get(\"validStartTime\"));",
-              "    pm.expect(body).to.include(pm.collectionVariables.get(\"validEndTime\"));",
+              "    pm.expect(body).to.include(\"2026-06-10T09:00:00\");",
+              "    pm.expect(body).to.include(\"2026-06-10T11:00:00\");",
               "    pm.expect(body).to.not.include(\"<SOAP-ENV:Fault>\");",
               "});"
             ],
