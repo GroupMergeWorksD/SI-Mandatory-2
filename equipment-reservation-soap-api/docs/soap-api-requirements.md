@@ -5,7 +5,7 @@ This document condenses the assignment requirements that apply to the SOAP API i
 ## General Requirements
 
 - The API must use database-stored information.
-- The API must protect against common security issues where applicable, including SQL injection, IDOR, and XSS.
+- The API must protect against common security issues where applicable, including SQL injection, XSS, and CSRF.
 - A Postman collection or similar test suite must be provided.
 - The test suite must include both positive and negative requests.
 - Source code and test collections must be part of the delivery.
@@ -38,6 +38,9 @@ This document condenses the assignment requirements that apply to the SOAP API i
 - `equipment-not-found`: returned when creating a reservation for missing equipment.
 - `reservation-not-found`: returned when reading, deleting, or cancelling a missing reservation.
 - `reservation-conflict`: returned when a reservation cannot be created because of a domain conflict.
+- `equipment-unavailable`: returned when equipment is not active and cannot be reserved.
+- `invalid-reservation-time`: returned when reservation start and end times are logically invalid.
+- `invalid-request`: returned when required request values are missing or malformed.
 
 ## Testing Expectations
 

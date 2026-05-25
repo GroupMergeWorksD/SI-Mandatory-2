@@ -7,7 +7,7 @@
     <xs:element name="createReservationRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="equipmentId" type="xs:string"/>
+                <xs:element name="equipmentId" type="tns:uuid"/>
                 <xs:element name="startTime" type="xs:dateTime"/>
                 <xs:element name="endTime" type="xs:dateTime"/>
             </xs:sequence>
@@ -25,7 +25,7 @@
     <xs:element name="getReservationRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="reservationId" type="xs:string"/>
+                <xs:element name="reservationId" type="tns:uuid"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -55,7 +55,7 @@
     <xs:element name="deleteReservationRequest">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="reservationId" type="xs:string"/>
+                <xs:element name="reservationId" type="tns:uuid"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -63,27 +63,39 @@
     <xs:element name="deleteReservationResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="reservationId" type="xs:string"/>
+                <xs:element name="reservationId" type="tns:uuid"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
 
     <xs:complexType name="equipment">
         <xs:sequence>
-            <xs:element name="equipmentId" type="xs:string"/>
-            <xs:element name="name" type="xs:string"/>
+            <xs:element name="equipmentId" type="tns:uuid"/>
+            <xs:element name="name" type="tns:nonBlankString"/>
             <xs:element name="status" type="tns:equipmentStatus"/>
         </xs:sequence>
     </xs:complexType>
 
     <xs:complexType name="reservation">
         <xs:sequence>
-            <xs:element name="reservationId" type="xs:string"/>
+            <xs:element name="reservationId" type="tns:uuid"/>
             <xs:element name="equipment" type="tns:equipment"/>
             <xs:element name="startTime" type="xs:dateTime"/>
             <xs:element name="endTime" type="xs:dateTime"/>
         </xs:sequence>
     </xs:complexType>
+
+    <xs:simpleType name="uuid">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="nonBlankString">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+        </xs:restriction>
+    </xs:simpleType>
 
     <xs:simpleType name="equipmentStatus">
         <xs:restriction base="xs:string">
@@ -105,8 +117,8 @@
 
     <xs:complexType name="faultDetail">
         <xs:sequence>
-            <xs:element name="message" type="xs:string"/>
-            <xs:element name="resourceId" type="xs:string" minOccurs="0"/>
+            <xs:element name="message" type="tns:nonBlankString"/>
+            <xs:element name="resourceId" type="tns:uuid" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
