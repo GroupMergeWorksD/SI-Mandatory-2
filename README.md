@@ -10,6 +10,18 @@ Multi-service system for the mandatory assignment.
 - `grpc-api`: gRPC API on port `8084`
 - `websocket-api`: WebSocket API on port `8085`
 
+## Docker
+
+The applications and their dependencies are dockerized, so no local database or service installation is needed. Create a local `.env` file using `dotenv-template` as reference, then start the system with Docker Compose.
+
+From the parent repo:
+
+```bash
+docker compose up --build
+```
+
+NOTE: Never check the .env file into git!
+
 ## REST API
 
 ## SOAP API
@@ -44,14 +56,3 @@ equipment_reservation_db
 
 ## WebSocket API
 
-## Docker
-
-The applications and their dependencies are dockerized, so no local database or service installation is needed. Create a local `.env` file using `dotenv-template` as reference, then start the system with Docker Compose.
-
-From the parent repo:
-
-```bash
-docker compose up --build
-```
-
-NOTE: Never check the .env file into git!
