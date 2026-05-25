@@ -26,14 +26,14 @@ This document condenses the assignment requirements that apply to the SOAP API i
 - SOAP endpoint URL: `/ws`.
 - Database: MySQL database `equipment_reservation_db`.
 
-## Planned SOAP Operations
+## SOAP Operations
 
 - `create-reservation`: create a reservation for equipment.
 - `get-reservation`: read one reservation by ID.
 - `list-reservations`: read multiple reservations.
 - `delete-reservation`: cancel a reservation (hard delete).
 
-## Planned SOAP Faults
+## SOAP Faults
 
 - `equipment-not-found`: returned when creating a reservation for missing equipment.
 - `reservation-not-found`: returned when reading, deleting, or cancelling a missing reservation.
