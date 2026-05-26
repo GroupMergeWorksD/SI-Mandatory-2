@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package equipmentreservation;
+
+import "google/protobuf/timestamp.proto";
+
+option java_multiple_files = true;
+option java_package = "com.groupmergeworks.sirmeows.grpc";
+option java_outer_classname = "EquipmentReservationProto";
+
+service EquipmentReservationService {
+  rpc GetReservation(GetReservationRequest) returns (GetReservationResponse);
+  rpc MonitorReservations(stream MonitorRequest) returns (stream MonitorResponse);
+}
+
+message GetReservationRequest {
+  string reservation_id = 1;
+}
+
+message GetReservationResponse {
+  string reservation_id = 1;
+  string equipment_id = 2;
+  string equipment_name = 3;
+  google.protobuf.Timestamp start_time = 4;
+  google.protobuf.Timestamp end_time = 5;
+}
+
+message MonitorRequest {
+  oneof request {
+    SubscribeEquipment subscribe_equipment = 1;
+    UnsubscribeEquipment unsubscribe_equipment = 2;
+    Ping ping = 3;
+  }
+}
+
+message SubscribeEquipment {
+  string equipment_id = 1;
+}
+
+message UnsubscribeEquipment {
+  string equipment_id = 1;
+}
+
+message Ping {}
+
+message MonitorResponse {
+  oneof response {
+    ReservationSnapshot snapshot = 1;
+    Ack ack = 2;
+    ErrorInfo error = 3;
+  }
+}
+
+message ReservationSnapshot {
+  string equipment_id = 1;
+  repeated ReservationSummary reservations = 2;
+}
+
+message ReservationSummary {
+  string reservation_id = 1;
+  google.protobuf.Timestamp start_time = 2;
+  google.protobuf.Timestamp end_time = 3;
+}
+
+message Ack {
+  string message = 1;
+}
+
+message ErrorInfo {
+  string code = 1;
+  string message = 2;
+}

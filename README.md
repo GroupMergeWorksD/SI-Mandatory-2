@@ -58,5 +58,35 @@ equipment_reservation_db
 
 ## gRPC API
 
+gRPC endpoint:
+
+```text
+localhost:8084
+```
+
+Proto file:
+
+```text
+grpc-api/src/main/proto/equipment_reservation_service.proto
+```
+
+Postman collection:
+
+```text
+grpc-api/postman/grpc-api.postman_collection.json
+```
+
+gRPC API database:
+
+```text
+equipment_reservation_db
+```
+
+Example `grpcurl` commands:
+
+```bash
+grpcurl -plaintext -d '{"reservation_id":"2d8f4162-2b85-48d1-8b59-d2be0a6e512a"}' localhost:8084 equipmentreservation.EquipmentReservationService/GetReservation
+```
+
 ## WebSocket API
 
