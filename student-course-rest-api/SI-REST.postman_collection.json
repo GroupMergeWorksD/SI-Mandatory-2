@@ -28,12 +28,12 @@
               "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/api/auth/login",
+              "raw": "{{baseUrl}}/auth/login",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "auth",
                 "login"
               ]
@@ -52,12 +52,12 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/auth/logout",
+              "raw": "{{baseUrl}}/auth/logout",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "auth",
                 "logout"
               ]
@@ -81,12 +81,12 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/students?search=&page=0&size=5",
+              "raw": "{{baseUrl}}/students?search=&page=0&size=5",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "students"
               ],
               "query": [
@@ -118,12 +118,12 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/students/1",
+              "raw": "{{baseUrl}}/students/1",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "students",
                 "1"
               ]
@@ -150,12 +150,12 @@
               "raw": "{\n  \"name\": \"David Miller\",\n  \"email\": \"david@example.com\",\n  \"age\": 21\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/api/students",
+              "raw": "{{baseUrl}}/students",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "students"
               ]
             }
@@ -181,12 +181,12 @@
               "raw": "{\n  \"name\": \"Alice Johnson Updated\",\n  \"email\": \"alice.updated@example.com\",\n  \"age\": 23\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/api/students/1",
+              "raw": "{{baseUrl}}/students/1",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "students",
                 "1"
               ]
@@ -205,12 +205,12 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/students/1",
+              "raw": "{{baseUrl}}/students/1",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "students",
                 "1"
               ]
@@ -234,12 +234,12 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/courses?search=&page=0&size=5",
+              "raw": "{{baseUrl}}/courses?search=&page=0&size=5",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "courses"
               ],
               "query": [
@@ -271,12 +271,12 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/courses/1",
+              "raw": "{{baseUrl}}/courses/1",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "courses",
                 "1"
               ]
@@ -300,12 +300,12 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/enrollments?search=&page=0&size=5",
+              "raw": "{{baseUrl}}/enrollments?search=&page=0&size=5",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "enrollments"
               ],
               "query": [
@@ -337,12 +337,12 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/enrollments/1",
+              "raw": "{{baseUrl}}/enrollments/1",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "enrollments",
                 "1"
               ]
@@ -373,12 +373,12 @@
               "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"wrong-password\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/api/auth/login",
+              "raw": "{{baseUrl}}/auth/login",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "auth",
                 "login"
               ]
@@ -404,12 +404,12 @@
               "raw": "{\n  \"username\": \"admin\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/api/auth/login",
+              "raw": "{{baseUrl}}/auth/login",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "auth",
                 "login"
               ]
@@ -426,12 +426,12 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "{{baseUrl}}/api/students",
+              "raw": "{{baseUrl}}/students",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "students"
               ]
             }
@@ -449,12 +449,12 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/students",
+              "raw": "{{baseUrl}}/students",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "students"
               ]
             }
@@ -472,12 +472,12 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/students/999999",
+              "raw": "{{baseUrl}}/students/999999",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "students",
                 "999999"
               ]
@@ -504,12 +504,12 @@
               "raw": "{\n  \"name\": \"\",\n  \"email\": \"not-an-email\",\n  \"age\": -1\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/api/students",
+              "raw": "{{baseUrl}}/students",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "students"
               ]
             }
@@ -535,12 +535,12 @@
               "raw": "{\n  \"name\": \"Ghost Student\",\n  \"email\": \"ghost@example.com\",\n  \"age\": 22\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/api/students/999999",
+              "raw": "{{baseUrl}}/students/999999",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "students",
                 "999999"
               ]
@@ -559,12 +559,12 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/students/999999",
+              "raw": "{{baseUrl}}/students/999999",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "students",
                 "999999"
               ]
@@ -583,12 +583,12 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/students?page=-1&size=-5",
+              "raw": "{{baseUrl}}/students?page=-1&size=-5",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "students"
               ],
               "query": [
@@ -616,12 +616,12 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/courses/999999",
+              "raw": "{{baseUrl}}/courses/999999",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "courses",
                 "999999"
               ]
@@ -640,12 +640,12 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/enrollments/999999",
+              "raw": "{{baseUrl}}/enrollments/999999",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "enrollments",
                 "999999"
               ]
