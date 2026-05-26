@@ -1,4 +1,57 @@
 services:
+  student-course-rest-api:
+    build:
+      context: ./student-course-rest-api
+      dockerfile: docker/Dockerfile
+    container_name: student-course-rest-api
+    restart: unless-stopped
+    depends_on:
+      rest-mysql:
+        condition: service_healthy
+      rest-redis:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
+    environment:
+      DB_URL: jdbc:mysql://rest-mysql:3306/student_course_db?createDatabaseIfNotExist=true
+      DB_USERNAME: ${REST_MYSQL_USER}
+      DB_PASSWORD: ${REST_MYSQL_PASSWORD}
+      REDIS_HOST: rest-redis
+      REDIS_PORT: 6379
+      JWT_SECRET: ${REST_JWT_SECRET}
+      JWT_EXPIRATION: ${REST_JWT_EXPIRATION}
+
+  rest-mysql:
+    image: docker.io/library/mysql:8.4
+    container_name: rest-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: student_course_db
+      MYSQL_ROOT_PASSWORD: ${REST_MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${REST_MYSQL_USER}
+      MYSQL_PASSWORD: ${REST_MYSQL_PASSWORD}
+    ports:
+      - "3308:3306"
+    volumes:
+      - rest-mysql-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p$${MYSQL_ROOT_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  rest-redis:
+    image: docker.io/library/redis:7-alpine
+    container_name: rest-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
   equipment-reservation-soap-api:
     build:
       context: ./equipment-reservation-soap-api
@@ -13,6 +66,15 @@ services:
     depends_on:
       soap-mysql:
         condition: service_healthy
+
+  graphql-api:
+    build:
+      context: ./graphql-api
+      dockerfile: Dockerfile
+    container_name: graphql-api
+    restart: unless-stopped
+    ports:
+      - "8083:8000"
 
   soap-mysql:
     image: docker.io/library/mysql:9.4
@@ -31,4 +93,5 @@ services:
       retries: 10
 
 volumes:
+  rest-mysql-data:
   soap-mysql-data:
