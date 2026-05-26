@@ -12,19 +12,13 @@ Multi-service system for the mandatory assignment.
 
 ## Docker
 
-The applications and their dependencies are dockerized, so no local database or service installation is needed. Create a local `.env` file using `dotenv-template` as reference, then start the system with Docker Compose from parent repo.
+SOAP API and its MySQL database can be started from the repo root. Create a local `.env` file using `dotenv-template` as reference, then run:
 
-To start the system:
 ```bash
 docker compose up -d
 ```
 
-To do a clean restart including database reset:
-
-```bash
-docker compose down -v
-docker compose up --build -d
-```
+gRPC and WebSocket APIs have their own `docker-compose.yml` files under `grpc-api/` and `websockets-api/` (see each module README). A full-system compose file for all services can be added at the repo root later.
 
 ## REST API
 

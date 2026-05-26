@@ -8,10 +8,23 @@ Open a terminal in the folder `websockets-api` and run the following commands:
 WebSocket endpoint:
 `ws://localhost:8085/ws/reservations`
 
-### Running with Docker Compose (recommended)
-From the parent repo root, create a `.env` file using `dotenv-template` as reference, then run:
+A MySQL database must already be running and reachable at the URL above.
 
-`docker compose up -d websocket-api`
+### Running with Docker Compose (this module)
+From the `websockets-api` folder, copy `dotenv-template` to `.env` if you want a custom MySQL password, then run:
+
+```bash
+docker compose up -d
+```
+
+This starts a dedicated MySQL container (`websocket-mysql` on host port `3309`) and the WebSocket API on port `8085`.
+
+To rebuild and restart:
+
+```bash
+docker compose down -v
+docker compose up --build -d
+```
 
 ### Running locally with Maven
 Requires **JDK 24** and **Maven**. MySQL must be running with database `equipment_reservation_db`.
@@ -21,6 +34,8 @@ set WS_MYSQL_ROOT_USER=root
 set WS_MYSQL_ROOT_PASSWORD=yourpassword
 mvn spring-boot:run
 ```
+
+On Linux/macOS, use `export` instead of `set`.
 
 ### Request format
 Send JSON messages over the WebSocket connection:

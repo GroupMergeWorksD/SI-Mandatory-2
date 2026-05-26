@@ -30,35 +30,5 @@ services:
       timeout: 5s
       retries: 10
 
-  grpc-api:
-    build:
-      context: ./grpc-api
-      dockerfile: Dockerfile
-    container_name: grpc-api
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://soap-mysql:3306/equipment_reservation_db
-      GRPC_MYSQL_ROOT_USER: ${SOAP_MYSQL_ROOT_USER}
-      GRPC_MYSQL_ROOT_PASSWORD: ${SOAP_MYSQL_ROOT_PASSWORD}
-    ports:
-      - "8084:8084"
-    depends_on:
-      soap-mysql:
-        condition: service_healthy
-
-  websocket-api:
-    build:
-      context: ./websockets-api
-      dockerfile: Dockerfile
-    container_name: websocket-api
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://soap-mysql:3306/equipment_reservation_db
-      WS_MYSQL_ROOT_USER: ${SOAP_MYSQL_ROOT_USER}
-      WS_MYSQL_ROOT_PASSWORD: ${SOAP_MYSQL_ROOT_PASSWORD}
-    ports:
-      - "8085:8085"
-    depends_on:
-      soap-mysql:
-        condition: service_healthy
-
 volumes:
   soap-mysql-data:
