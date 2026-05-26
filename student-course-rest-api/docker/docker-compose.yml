@@ -1,0 +1,58 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:8.4
+    container_name: si-rest-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: student_course_db
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_USER: si_user
+      MYSQL_PASSWORD: si_password
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-ppassword"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: si-rest-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: si-rest-app
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
+    environment:
+      DB_URL: jdbc:mysql://mysql:3306/student_course_db?createDatabaseIfNotExist=true
+      DB_USERNAME: si_user
+      DB_PASSWORD: si_password
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      JWT_SECRET: ThisIsASecretKeyThatShouldBeLongEnoughForJwtSigning123456
+      JWT_EXPIRATION: 3600000
+
+volumes:
+  mysql_data:
