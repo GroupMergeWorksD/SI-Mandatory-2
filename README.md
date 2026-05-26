@@ -90,3 +90,15 @@ grpcurl -plaintext -d '{"reservation_id":"2d8f4162-2b85-48d1-8b59-d2be0a6e512a"}
 
 ## WebSocket API
 
+WebSocket endpoint:
+
+```text
+ws://localhost:8085/ws/reservations
+```
+
+WebSocket module:
+
+```text
+websockets-api
+```
+

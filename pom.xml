@@ -14,5 +14,6 @@
     <modules>
         <module>equipment-reservation-soap-api</module>
         <module>grpc-api</module>
+        <module>websockets-api</module>
     </modules>
 </project>
