@@ -1,0 +1,49 @@
+{
+  "info": {
+    "name": "websockets-api",
+    "description": "Postman examples for the WebSocket API. Connect to ws://localhost:8085/ws/reservations and send the documented JSON payloads.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "getReservation (unary)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "ws://localhost:8085/ws/reservations",
+          "protocol": "ws",
+          "host": [
+            "localhost"
+          ],
+          "port": "8085",
+          "path": [
+            "ws",
+            "reservations"
+          ]
+        },
+        "description": "{\"type\":\"getReservation\",\"reservationId\":\"2d8f4162-2b85-48d1-8b59-d2be0a6e512a\"}"
+      }
+    },
+    {
+      "name": "monitor stream operations",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "ws://localhost:8085/ws/reservations",
+          "protocol": "ws",
+          "host": [
+            "localhost"
+          ],
+          "port": "8085",
+          "path": [
+            "ws",
+            "reservations"
+          ]
+        },
+        "description": "{\"type\":\"subscribeEquipment\",\"equipmentId\":\"8f6c7bbd-3f1f-4b6f-9bcb-84db99411f2a\"}\n{\"type\":\"unsubscribeEquipment\",\"equipmentId\":\"8f6c7bbd-3f1f-4b6f-9bcb-84db99411f2a\"}\n{\"type\":\"ping\"}"
+      }
+    }
+  ]
+}

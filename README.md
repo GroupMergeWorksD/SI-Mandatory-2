@@ -58,5 +58,47 @@ equipment_reservation_db
 
 ## gRPC API
 
+Proto file:
+
+```text
+grpc-api/src/main/proto/equipment_reservation_service.proto
+```
+
+gRPC endpoint:
+
+```text
+localhost:8084
+```
+
+Postman collection:
+
+```text
+grpc-api/postman/grpc-api.postman_collection.json
+```
+
+gRPC API database:
+
+```text
+equipment_reservation_db
+```
+
 ## WebSocket API
+
+WebSocket endpoint:
+
+```text
+ws://localhost:8085/ws/reservations
+```
+
+Postman collection:
+
+```text
+websockets-api/postman/websockets-api.postman_collection.json
+```
+
+WebSocket API database:
+
+```text
+equipment_reservation_db
+```
 

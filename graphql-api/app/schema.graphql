@@ -28,12 +28,23 @@ input CreateTaskInput {
     assigneeId: ID
 }
 
+input CreateProjectInput {
+    name: String!
+}
+
+input CreateUserInput {
+    name: String!
+}
+
 type Query {
+    users: [User!]!
     projects: [Project!]!
     tasks(projectId: ID!, status: TaskStatus): [Task!]!
 }
 
 type Mutation {
+    createUser(input: CreateUserInput!): User!
+    createProject(input: CreateProjectInput!): Project!
     createTask(input: CreateTaskInput!): Task!
     updateTaskStatus(taskId: ID!, status: TaskStatus!): Task!
 }
