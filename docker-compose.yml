@@ -67,6 +67,15 @@ services:
       soap-mysql:
         condition: service_healthy
 
+  graphql-api:
+    build:
+      context: ./graphql-api
+      dockerfile: Dockerfile
+    container_name: graphql-api
+    restart: unless-stopped
+    ports:
+      - "8083:8000"
+
   soap-mysql:
     image: docker.io/library/mysql:9.4
     container_name: soap-mysql
