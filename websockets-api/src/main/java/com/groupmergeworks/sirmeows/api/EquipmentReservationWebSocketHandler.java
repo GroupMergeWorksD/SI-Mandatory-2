@@ -1,7 +1,7 @@
 package com.groupmergeworks.sirmeows.api;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import tools.jackson.core.JacksonException;
+import tools.jackson.databind.ObjectMapper;
 import com.groupmergeworks.sirmeows.api.dto.MonitorRequest;
 import com.groupmergeworks.sirmeows.api.dto.MonitorResponse;
 import com.groupmergeworks.sirmeows.exception.EquipmentNotFoundException;
@@ -65,7 +65,7 @@ public class EquipmentReservationWebSocketHandler extends TextWebSocketHandler {
                         "Unsupported type. Use getReservation, subscribeEquipment, unsubscribeEquipment, or ping."
                 ));
             }
-        } catch (JsonProcessingException exception) {
+        } catch (JacksonException exception) {
             sendResponse(session, errorResponse("INVALID_ARGUMENT", "Request payload must be valid JSON."));
         } catch (InvalidRequestException exception) {
             sendResponse(session, errorResponse("INVALID_ARGUMENT", exception.getMessage()));
