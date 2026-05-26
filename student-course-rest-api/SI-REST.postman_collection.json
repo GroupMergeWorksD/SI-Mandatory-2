@@ -1,10 +1,10 @@
 {
   "info": {
-    "_postman_id": "eb8bfa02-43fa-4823-9519-b86ef4d194da",
+    "_postman_id": "fa802195-ae73-4bde-9627-f4491e0c9865",
     "name": "SI-REST",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "29482344",
-    "_collection_link": "https://go.postman.co/collection/29482344-eb8bfa02-43fa-4823-9519-b86ef4d194da?source=collection_link"
+    "_collection_link": "https://go.postman.co/collection/29482344-fa802195-ae73-4bde-9627-f4491e0c9865?source=collection_link"
   },
   "item": [
     {
@@ -13,6 +13,9 @@
         {
           "name": "Login",
           "request": {
+            "auth": {
+              "type": "noauth"
+            },
             "method": "POST",
             "header": [
               {
@@ -25,12 +28,12 @@
               "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"admin\"\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/api/auth/login",
+              "raw": "{{baseUrl}}/auth/login",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "auth",
                 "login"
               ]
@@ -49,12 +52,12 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/auth/logout",
+              "raw": "{{baseUrl}}/auth/logout",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "auth",
                 "logout"
               ]
@@ -78,12 +81,12 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/students?search=&page=0&size=5",
+              "raw": "{{baseUrl}}/students?search=&page=0&size=5",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "students"
               ],
               "query": [
@@ -115,12 +118,12 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/students/1",
+              "raw": "{{baseUrl}}/students/1",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "students",
                 "1"
               ]
@@ -147,12 +150,12 @@
               "raw": "{\n  \"name\": \"David Miller\",\n  \"email\": \"david@example.com\",\n  \"age\": 21\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/api/students",
+              "raw": "{{baseUrl}}/students",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "students"
               ]
             }
@@ -178,12 +181,12 @@
               "raw": "{\n  \"name\": \"Alice Johnson Updated\",\n  \"email\": \"alice.updated@example.com\",\n  \"age\": 23\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/api/students/1",
+              "raw": "{{baseUrl}}/students/1",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "students",
                 "1"
               ]
@@ -202,12 +205,12 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/students/1",
+              "raw": "{{baseUrl}}/students/1",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "students",
                 "1"
               ]
@@ -231,12 +234,12 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/courses?search=&page=0&size=5",
+              "raw": "{{baseUrl}}/courses?search=&page=0&size=5",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "courses"
               ],
               "query": [
@@ -268,12 +271,12 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/courses/1",
+              "raw": "{{baseUrl}}/courses/1",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "courses",
                 "1"
               ]
@@ -297,12 +300,12 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/enrollments?search=&page=0&size=5",
+              "raw": "{{baseUrl}}/enrollments?search=&page=0&size=5",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "enrollments"
               ],
               "query": [
@@ -334,14 +337,317 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/api/enrollments/1",
+              "raw": "{{baseUrl}}/enrollments/1",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                "api",
+                
                 "enrollments",
                 "1"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Negative Tests",
+      "item": [
+        {
+          "name": "Login - Invalid Password",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\",\n  \"password\": \"wrong-password\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login - Missing Password",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"username\": \"admin\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/auth/login",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Students - Missing Token",
+          "request": {
+            "auth": {
+              "type": "noauth"
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/students",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                
+                "students"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Students - Invalid Token",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer invalid-token"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/students",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                
+                "students"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Student By ID - Not Found",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/students/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                
+                "students",
+                "999999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Create Student - Invalid Payload",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"\",\n  \"email\": \"not-an-email\",\n  \"age\": -1\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/students",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                
+                "students"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Update Student - Not Found",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Ghost Student\",\n  \"email\": \"ghost@example.com\",\n  \"age\": 22\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/students/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                
+                "students",
+                "999999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Student - Not Found",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/students/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                
+                "students",
+                "999999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Students - Invalid Pagination",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/students?page=-1&size=-5",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                
+                "students"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "-1"
+                },
+                {
+                  "key": "size",
+                  "value": "-5"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Course By ID - Not Found",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/courses/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                
+                "courses",
+                "999999"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Enrollment By ID - Not Found",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/enrollments/999999",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                
+                "enrollments",
+                "999999"
               ]
             }
           },
@@ -355,7 +661,7 @@
     "bearer": [
       {
         "key": "token",
-        "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsImp0aSI6ImQ0NzY1NDFmLTJmZDQtNGVhMS1hNWNlLWRlNzBkZjk1OGNkOCIsImlhdCI6MTc3OTc0NzY1NiwiZXhwIjoxNzc5NzUxMjU2fQ.1D-GW8mGzJC1LmeeyYFSX-UHGIDfne5kRKr6kryFoTQ",
+        "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsImp0aSI6ImY4NDc5NTk3LTI5M2MtNDZmOS1hNzU3LTUwNTM0YTBhMzhhOSIsImlhdCI6MTc3OTc5MzA4OSwiZXhwIjoxNzc5Nzk2Njg5fQ.DSssPIZvZwOB1LIKf_rP8Ye_dtHNK8_Z21-LdRr4n7I",
         "type": "string"
       }
     ]
@@ -387,7 +693,7 @@
   "variable": [
     {
       "key": "baseUrl",
-      "value": "http://localhost:8081"
+      "value": "http://localhost:8081/api/v1"
     }
   ]
 }

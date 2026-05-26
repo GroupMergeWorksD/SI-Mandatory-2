@@ -1,5 +1,6 @@
 package com.sirest.auth;
 
+import com.sirest.config.ApiPaths;
 import com.sirest.dto.LoginRequest;
 import com.sirest.dto.LoginResponse;
 import com.sirest.model.User;
@@ -20,7 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping(ApiPaths.API_V1 + "/auth")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;

@@ -1,5 +1,6 @@
 package com.sirest.controller;
 
+import com.sirest.config.ApiPaths;
 import com.sirest.dto.EnrollmentResponse;
 import com.sirest.service.EnrollmentService;
 import org.springframework.data.domain.Page;
@@ -12,7 +13,7 @@ import java.util.List;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
-@RequestMapping("/api/enrollments")
+@RequestMapping(ApiPaths.API_V1 + "/enrollments")
 public class EnrollmentController {
 
     private final EnrollmentService enrollmentService;

@@ -1,5 +1,6 @@
 package com.sirest.controller;
 
+import com.sirest.config.ApiPaths;
 import com.sirest.dto.DeleteStudentResponse;
 import com.sirest.dto.StudentRequest;
 import com.sirest.dto.StudentResponse;
@@ -16,7 +17,7 @@ import java.util.List;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
-@RequestMapping("/api/students")
+@RequestMapping(ApiPaths.API_V1 + "/students")
 public class StudentController {
 
     private final StudentService studentService;

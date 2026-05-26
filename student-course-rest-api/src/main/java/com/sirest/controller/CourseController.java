@@ -1,5 +1,6 @@
 package com.sirest.controller;
 
+import com.sirest.config.ApiPaths;
 import com.sirest.model.Course;
 import com.sirest.service.CourseService;
 import org.springframework.data.domain.Page;
@@ -12,7 +13,7 @@ import java.util.List;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.*;
 
 @RestController
-@RequestMapping("/api/courses")
+@RequestMapping(ApiPaths.API_V1 + "/courses")
 public class CourseController {
 
     private final CourseService courseService;
