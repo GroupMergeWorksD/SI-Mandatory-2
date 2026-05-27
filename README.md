@@ -28,6 +28,29 @@ docker compose up --build -d
 
 ## REST API
 
+Base URL:
+
+```
+texthttp://localhost:8081/api/v1
+```
+
+Postman collection:
+
+```text
+student-course-rest-api/SI-REST.postman_collection.json
+```
+
+Swagger UI:
+
+```text
+http://localhost:8081/swagger-ui.html
+```
+
+DB data script:
+```
+student-course-rest-api/src/main/resources/data/dataScript.sql
+```
+
 ## SOAP API
 
 WSDL:
