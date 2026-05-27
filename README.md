@@ -56,6 +56,21 @@ equipment_reservation_db
 
 ## GraphQL API
 
+Base URL:
+```text
+http://localhost:8083/graphql
+```
+
+Postman collection:
+```text
+graphql-api/GraphQL API.postman_collection.json
+```
+
+GraphQL API database:
+```text
+graphql-api/db/app.db
+```
+
 ## gRPC API
 
 Proto file:
