@@ -1,5 +1,5 @@
 
-### Running application in Docker
+### Running application in Docker for development
 Commands for building the image and running the container. 
 
 Open a terminal in the folder `graphql-api` and run the following commands:
