@@ -37,7 +37,7 @@ texthttp://localhost:8081/api/v1
 Postman collection:
 
 ```text
-student-course-rest-api/SI-REST.postman_collection.json
+student-course-rest-api/postman/SI-REST.postman_collection.json
 ```
 
 Swagger UI:
@@ -86,7 +86,7 @@ http://localhost:8083/graphql
 
 Postman collection:
 ```text
-graphql-api/GraphQL API.postman_collection.json
+graphql-api/postman/GraphQL API.postman_collection.json
 ```
 
 GraphQL API database:
