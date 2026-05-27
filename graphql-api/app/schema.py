@@ -172,6 +172,21 @@ class Mutation:
     @strawberry.mutation(name="createTask")
     def create_task(self, input: CreateTaskInput) -> Task:
         with get_conn() as conn:
+            #check if assignee and project exists in the db and throw error if not
+            if input.assignee_id is not None:
+                assignee_row = conn.execute(
+                    "SELECT id FROM users WHERE id = ?",
+                    (int(input.assignee_id),),
+                ).fetchone()
+                if assignee_row is None:
+                    raise ValueError(f"Assignee {input.assignee_id} not found")
+            project_row = conn.execute(
+                "SELECT id FROM projects WHERE id = ?",
+                (int(input.project_id),),
+            ).fetchone()
+            if project_row is None:
+                raise ValueError(f"Project {input.project_id} not found")
+
             cur = conn.execute(
                 """
                 INSERT INTO tasks (project_id, assignee_id, title, status)
