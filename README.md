@@ -4,11 +4,15 @@ Multi-service system for the mandatory assignment.
 
 ## Services
 
-- `rest-api`: REST API on port `8081`
+- `student-course-rest-api`: REST API on port `8081`
 - `equipment-reservation-soap-api`: Spring Boot SOAP API on port `8082`
 - `graphql-api`: GraphQL API on port `8083`
 - `grpc-api`: gRPC API on port `8084`
-- `websocket-api`: WebSocket API on port `8085`
+- `websockets-api`: WebSocket API on port `8085`
+
+## Environment
+
+See `dotenv-template` in the project root for required environment variables.
 
 ## Docker
 
@@ -31,7 +35,7 @@ docker compose up --build -d
 Base URL:
 
 ```
-texthttp://localhost:8081/api/v1
+http://localhost:8081/api/v1
 ```
 
 Postman collection:
@@ -49,6 +53,13 @@ http://localhost:8081/swagger-ui.html
 DB data script:
 ```
 student-course-rest-api/src/main/resources/data/dataScript.sql
+```
+
+Documentation:
+
+```text
+student-course-rest-api/swagger-ui.md
+student-course-rest-api/redis.md
 ```
 
 ## SOAP API
@@ -77,6 +88,13 @@ SOAP API database:
 equipment_reservation_db
 ```
 
+Documentation:
+
+```text
+equipment-reservation-soap-api/docs/soap-api-requirements.md
+equipment-reservation-soap-api/docs/SECURITY.md
+```
+
 ## GraphQL API
 
 Base URL:
@@ -92,6 +110,11 @@ graphql-api/postman/GraphQL API.postman_collection.json
 GraphQL API database:
 ```text
 graphql-api/db/app.db
+```
+
+Documentation:
+```text
+graphql-api/README.md
 ```
 
 ## gRPC API
@@ -120,6 +143,13 @@ gRPC API database:
 equipment_reservation_db
 ```
 
+Documentation:
+
+```text
+grpc-api/docs/grpc-api-requirements.md
+grpc-api/docs/SECURITY.md
+```
+
 ## WebSocket API
 
 WebSocket endpoint:
@@ -128,15 +158,24 @@ WebSocket endpoint:
 ws://localhost:8085/ws/reservations
 ```
 
-Postman collection:
+Postman examples:
 
 ```text
 websockets-api/postman/websockets-api.postman_collection.json
 ```
 
+WebSocket requests may need to be created manually in Postman using the endpoint above and the message examples in the collection.
+
 WebSocket API database:
 
 ```text
 equipment_reservation_db
+```
+
+Documentation:
+
+```text
+websockets-api/docs/websocket-api-requirements.md
+websockets-api/docs/SECURITY.md
 ```
 
