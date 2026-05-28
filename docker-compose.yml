@@ -84,7 +84,7 @@ services:
     restart: unless-stopped
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://grpc-mysql:3306/equipment_reservation_db
-      GRPC_MYSQL_ROOT_USER: root
+      GRPC_MYSQL_ROOT_USER: ${GRPC_MYSQL_ROOT_USER}
       GRPC_MYSQL_ROOT_PASSWORD: ${GRPC_MYSQL_ROOT_PASSWORD}
     ports:
       - "8084:8084"
@@ -117,7 +117,7 @@ services:
     restart: unless-stopped
     environment:
       SPRING_DATASOURCE_URL: jdbc:mysql://websocket-mysql:3306/equipment_reservation_db
-      WS_MYSQL_ROOT_USER: root
+      WS_MYSQL_ROOT_USER: ${WS_MYSQL_ROOT_USER}
       WS_MYSQL_ROOT_PASSWORD: ${WS_MYSQL_ROOT_PASSWORD}
     ports:
       - "8085:8085"
