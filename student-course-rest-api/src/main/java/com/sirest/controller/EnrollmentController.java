@@ -6,7 +6,9 @@ import com.sirest.service.EnrollmentService;
 import org.springframework.data.domain.Page;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -28,6 +30,11 @@ public class EnrollmentController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size
     ) {
+        if(page < 0 || size < 0 || page > 100 || size > 100) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Page and size parameters must be between 0 and 100");
+        }
         Page<EnrollmentResponse> enrollmentPage = enrollmentService.getAllEnrollments(search, page, size);
 
         List<EntityModel<EnrollmentResponse>> enrollments = enrollmentPage.getContent().stream()

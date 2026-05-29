@@ -1,10 +1,10 @@
 {
   "info": {
-    "_postman_id": "fa802195-ae73-4bde-9627-f4491e0c9865",
-    "name": "SI-REST",
+    "_postman_id": "f047270b-eeb1-4a4a-b54d-1a8ac655ea12",
+    "name": "student-course-rest-api",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "29482344",
-    "_collection_link": "https://go.postman.co/collection/29482344-fa802195-ae73-4bde-9627-f4491e0c9865?source=collection_link"
+    "_collection_link": "https://go.postman.co/collection/29482344-f047270b-eeb1-4a4a-b54d-1a8ac655ea12?source=collection_link"
   },
   "item": [
     {
@@ -12,6 +12,28 @@
       "item": [
         {
           "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Login returns 200', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200]);",
+                  "});",
+                  "",
+                  "pm.test('Login response contains token', function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(json).to.have.property('token');",
+                  "    pm.expect(json.token).to.be.a('string').and.not.empty;",
+                  "    pm.collectionVariables.set('token', json.token);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "auth": {
               "type": "noauth"
@@ -33,33 +55,8 @@
                 "{{baseUrl}}"
               ],
               "path": [
-                
                 "auth",
                 "login"
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "Logout",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Authorization",
-                "value": "Bearer {{token}}"
-              }
-            ],
-            "url": {
-              "raw": "{{baseUrl}}/auth/logout",
-              "host": [
-                "{{baseUrl}}"
-              ],
-              "path": [
-                
-                "auth",
-                "logout"
               ]
             }
           },
@@ -72,6 +69,24 @@
       "item": [
         {
           "name": "Get All Students",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Get all students returns 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test('Response is JSON', function () {",
+                  "    pm.response.to.be.withBody;",
+                  "    pm.response.to.be.json;",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [
@@ -86,7 +101,6 @@
                 "{{baseUrl}}"
               ],
               "path": [
-                
                 "students"
               ],
               "query": [
@@ -109,6 +123,19 @@
         },
         {
           "name": "Get Student By ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Get student by id returns 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [
@@ -123,7 +150,6 @@
                 "{{baseUrl}}"
               ],
               "path": [
-                
                 "students",
                 "1"
               ]
@@ -133,6 +159,35 @@
         },
         {
           "name": "Create Student",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Create student returns 201', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([201]);",
+                  "});",
+                  "",
+                  "pm.test('Created student contains name', function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(json).to.have.property('name');",
+                  "});",
+                  "",
+                  "pm.test('Response includes Id of created student', function () {",
+                  "    var json = pm.response.json();",
+                  "    pm.expect(json).to.have.property('id');",
+                  "    pm.expect(json.id).to.be.not.null;",
+                  "    pm.collectionVariables.set('studentId', json.id);",
+                  "});",
+                  "",
+                  "    "
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -155,7 +210,6 @@
                 "{{baseUrl}}"
               ],
               "path": [
-                
                 "students"
               ]
             }
@@ -164,6 +218,21 @@
         },
         {
           "name": "Update Student",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Update student returns 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "PUT",
             "header": [
@@ -178,17 +247,16 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"name\": \"Alice Johnson Updated\",\n  \"email\": \"alice.updated@example.com\",\n  \"age\": 23\n}"
+              "raw": "{\n  \"name\": \"David Miller Updated\",\n  \"email\": \"david.updated@example.com\",\n  \"age\": 23\n}"
             },
             "url": {
-              "raw": "{{baseUrl}}/students/1",
+              "raw": "{{baseUrl}}/students/{{studentId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                
                 "students",
-                "1"
+                "{{studentId}}"
               ]
             }
           },
@@ -196,6 +264,23 @@
         },
         {
           "name": "Delete Student",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Delete student returns 200', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200]);",
+                  "});",
+                  "",
+                  "pm.collectionVariables.unset('studentId');"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "DELETE",
             "header": [
@@ -205,14 +290,13 @@
               }
             ],
             "url": {
-              "raw": "{{baseUrl}}/students/1",
+              "raw": "{{baseUrl}}/students/{{studentId}}",
               "host": [
                 "{{baseUrl}}"
               ],
               "path": [
-                
                 "students",
-                "1"
+                "{{studentId}}"
               ]
             }
           },
@@ -225,6 +309,19 @@
       "item": [
         {
           "name": "Get All Courses",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Get all courses returns 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [
@@ -239,7 +336,6 @@
                 "{{baseUrl}}"
               ],
               "path": [
-                
                 "courses"
               ],
               "query": [
@@ -262,6 +358,19 @@
         },
         {
           "name": "Get Course By ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Get course by id returns 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [
@@ -276,7 +385,6 @@
                 "{{baseUrl}}"
               ],
               "path": [
-                
                 "courses",
                 "1"
               ]
@@ -291,6 +399,19 @@
       "item": [
         {
           "name": "Get All Enrollments",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Get all enrollments returns 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [
@@ -305,7 +426,6 @@
                 "{{baseUrl}}"
               ],
               "path": [
-                
                 "enrollments"
               ],
               "query": [
@@ -328,6 +448,19 @@
         },
         {
           "name": "Get Enrollment By ID",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Get enrollment by id returns 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [
@@ -342,7 +475,6 @@
                 "{{baseUrl}}"
               ],
               "path": [
-                
                 "enrollments",
                 "1"
               ]
@@ -357,6 +489,21 @@
       "item": [
         {
           "name": "Login - Invalid Password",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Invalid login returns 401', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([401]);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "auth": {
               "type": "noauth"
@@ -378,7 +525,6 @@
                 "{{baseUrl}}"
               ],
               "path": [
-                
                 "auth",
                 "login"
               ]
@@ -388,6 +534,21 @@
         },
         {
           "name": "Login - Missing Password",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Missing password returns 400', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([400]);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "auth": {
               "type": "noauth"
@@ -409,7 +570,6 @@
                 "{{baseUrl}}"
               ],
               "path": [
-                
                 "auth",
                 "login"
               ]
@@ -419,6 +579,21 @@
         },
         {
           "name": "Students - Missing Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Missing token returns 401', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([401]);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "auth": {
               "type": "noauth"
@@ -431,7 +606,6 @@
                 "{{baseUrl}}"
               ],
               "path": [
-                
                 "students"
               ]
             }
@@ -440,6 +614,21 @@
         },
         {
           "name": "Students - Invalid Token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Invalid token returns 401', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([401]);",
+                  "});"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [
@@ -454,7 +643,6 @@
                 "{{baseUrl}}"
               ],
               "path": [
-                
                 "students"
               ]
             }
@@ -463,6 +651,19 @@
         },
         {
           "name": "Get Student By ID - Not Found",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Missing student returns 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [
@@ -477,7 +678,6 @@
                 "{{baseUrl}}"
               ],
               "path": [
-                
                 "students",
                 "999999"
               ]
@@ -487,6 +687,19 @@
         },
         {
           "name": "Create Student - Invalid Payload",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Invalid payload returns 400', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -509,7 +722,6 @@
                 "{{baseUrl}}"
               ],
               "path": [
-                
                 "students"
               ]
             }
@@ -518,6 +730,19 @@
         },
         {
           "name": "Update Student - Not Found",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Update missing student returns 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "PUT",
             "header": [
@@ -540,7 +765,6 @@
                 "{{baseUrl}}"
               ],
               "path": [
-                
                 "students",
                 "999999"
               ]
@@ -550,6 +774,19 @@
         },
         {
           "name": "Delete Student - Not Found",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Delete missing student returns 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "DELETE",
             "header": [
@@ -564,7 +801,6 @@
                 "{{baseUrl}}"
               ],
               "path": [
-                
                 "students",
                 "999999"
               ]
@@ -574,6 +810,19 @@
         },
         {
           "name": "Students - Invalid Pagination",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Invalid pagination returns 400', function () {",
+                  "    pm.response.to.have.status(400);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [
@@ -588,7 +837,6 @@
                 "{{baseUrl}}"
               ],
               "path": [
-                
                 "students"
               ],
               "query": [
@@ -607,6 +855,19 @@
         },
         {
           "name": "Get Course By ID - Not Found",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Missing course returns 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [
@@ -621,7 +882,6 @@
                 "{{baseUrl}}"
               ],
               "path": [
-                
                 "courses",
                 "999999"
               ]
@@ -631,6 +891,19 @@
         },
         {
           "name": "Get Enrollment By ID - Not Found",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test('Missing enrollment returns 404', function () {",
+                  "    pm.response.to.have.status(404);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [
@@ -645,7 +918,6 @@
                 "{{baseUrl}}"
               ],
               "path": [
-                
                 "enrollments",
                 "999999"
               ]
@@ -654,39 +926,66 @@
           "response": []
         }
       ]
+    },
+    {
+      "name": "Auth - End",
+      "item": [
+        {
+          "name": "Logout",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Logout returns 200', function () {",
+                  "    pm.expect(pm.response.code).to.be.oneOf([200]);",
+                  "});",
+                  "",
+                  "pm.collectionVariables.unset('token');"
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/auth/logout",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "auth",
+                "logout"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     }
   ],
-  "auth": {
-    "type": "bearer",
-    "bearer": [
-      {
-        "key": "token",
-        "value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbiIsInJvbGUiOiJhZG1pbiIsImp0aSI6ImY4NDc5NTk3LTI5M2MtNDZmOS1hNzU3LTUwNTM0YTBhMzhhOSIsImlhdCI6MTc3OTc5MzA4OSwiZXhwIjoxNzc5Nzk2Njg5fQ.DSssPIZvZwOB1LIKf_rP8Ye_dtHNK8_Z21-LdRr4n7I",
-        "type": "string"
-      }
-    ]
-  },
   "event": [
     {
       "listen": "prerequest",
       "script": {
         "type": "text/javascript",
-        "packages": {},
-        "requests": {},
-        "exec": [
-          ""
-        ]
+        "exec": []
       }
     },
     {
       "listen": "test",
       "script": {
         "type": "text/javascript",
-        "packages": {},
-        "requests": {},
-        "exec": [
-          ""
-        ]
+        "exec": []
       }
     }
   ],
@@ -694,6 +993,10 @@
     {
       "key": "baseUrl",
       "value": "http://localhost:8081/api/v1"
+    },
+    {
+      "key": "studentId",
+      "value": ""
     }
   ]
 }

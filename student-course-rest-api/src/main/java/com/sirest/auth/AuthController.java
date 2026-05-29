@@ -46,7 +46,7 @@ public class AuthController {
         );
 
         User user = userRepository.findByUsername(authentication.getName())
-                .orElseThrow(() -> new RuntimeException("User not found"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found"));
 
         String token = jwtService.generateToken(user.getUsername(), user.getRole());
 

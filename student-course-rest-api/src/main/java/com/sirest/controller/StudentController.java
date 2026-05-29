@@ -10,7 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.PagedModel;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -32,6 +34,11 @@ public class StudentController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size
     ) {
+        if(page < 0 || size < 0 || page > 100 || size > 100) {
+            throw new ResponseStatusException(
+                    HttpStatus.BAD_REQUEST,
+                    "Page and size parameters must be between 0 and 100");
+        }
         Page<StudentResponse> studentPage = studentService.getAllStudents(search, page, size);
 
         List<EntityModel<StudentResponse>> students = studentPage.getContent().stream()
@@ -83,11 +90,10 @@ public class StudentController {
     }
 
     @DeleteMapping("/{id}")
-    public EntityModel<DeleteStudentResponse> deleteStudent(@PathVariable Long id) {
+    public ResponseEntity<DeleteStudentResponse> deleteStudent(@PathVariable Long id) {
         studentService.deleteStudent(id);
         DeleteStudentResponse deleteStudentResponse = new DeleteStudentResponse("Student deleted successfully");
 
-        return EntityModel.of(deleteStudentResponse,
-                linkTo(methodOn(StudentController.class).getAllStudents("", 0, 5)).withRel("students"));
+        return new  ResponseEntity<>(deleteStudentResponse, HttpStatus.OK);
     }
 }

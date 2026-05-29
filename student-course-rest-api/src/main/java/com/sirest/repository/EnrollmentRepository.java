@@ -9,4 +9,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface EnrollmentRepository extends JpaRepository<Enrollment, Long> {
     Page<Enrollment> findBySemesterContainingIgnoreCase(String semester, Pageable pageable);
+    Enrollment findByStudentId(Long studentId);
 }
