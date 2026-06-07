@@ -1,18 +1,92 @@
 {
   "info": {
-    "_postman_id": "da338484-df66-45d5-a0bc-51c962fee131",
+    "_postman_id": "e3f35ae5-1603-4b98-b78d-21f01e6adfc1",
     "name": "GraphQL API - Project Manager",
     "description": "Postman collection for GroupMergeWorksD/SI-Mandatory-2 GraphQL API. Includes positive and negative requests for queries and mutations.",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "29482344",
-    "_collection_link": "https://go.postman.co/collection/29482344-da338484-df66-45d5-a0bc-51c962fee131?source=collection_link"
+    "_collection_link": "https://go.postman.co/collection/29482344-e3f35ae5-1603-4b98-b78d-21f01e6adfc1?source=collection_link"
   },
   "item": [
+    {
+      "name": "Introspective Requests",
+      "item": [
+        {
+          "name": "Query - introspection smoke test",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Schema exposes Query, Mutation, and core types\", function () {",
+                  "    const json = pm.response.json();",
+                  "    const typeNames = json.data.__schema.types.map(t => t.name);",
+                  "",
+                  "    pm.expect(json.data.__schema.queryType.name).to.eql(\"Query\");",
+                  "    pm.expect(json.data.__schema.mutationType.name).to.eql(\"Mutation\");",
+                  "    pm.expect(typeNames).to.include(\"Task\");",
+                  "    pm.expect(typeNames).to.include(\"User\");",
+                  "    pm.expect(typeNames).to.include(\"Project\");",
+                  "    pm.expect(typeNames).to.include(\"TaskStatus\");",
+                  "});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": \"query IntrospectionSmokeTest { __schema { queryType { name } mutationType { name } types { name } } }\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}{{graphqlPath}}",
+              "host": [
+                "{{baseUrl}}{{graphqlPath}}"
+              ]
+            },
+            "description": "Smoke test for GraphQL introspection."
+          },
+          "response": []
+        }
+      ]
+    },
     {
       "name": "Positive Requests",
       "item": [
         {
           "name": "Query - users",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Returns a non-empty users array\", function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.errors).to.be.undefined;",
+                  "    pm.expect(json.data.users).to.be.an(\"array\");",
+                  "    pm.expect(json.data.users.length).to.be.above(0);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -37,6 +111,26 @@
         },
         {
           "name": "Query - projects",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Returns a non-empty projects array\", function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.errors).to.be.undefined;",
+                  "    pm.expect(json.data.projects).to.be.an(\"array\");",
+                  "    pm.expect(json.data.projects.length).to.be.above(0);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -61,6 +155,28 @@
         },
         {
           "name": "Query - tasks by projectId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Returns tasks for project 1\", function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.errors).to.be.undefined;",
+                  "    pm.expect(json.data.tasks).to.be.an(\"array\");",
+                  "    json.data.tasks.forEach(task => {",
+                  "        pm.expect(task.project.id).to.eql(\"1\");",
+                  "    });",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -85,6 +201,28 @@
         },
         {
           "name": "Query - tasks by projectId and status",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Returns only TODO tasks for project 1\", function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.errors).to.be.undefined;",
+                  "    pm.expect(json.data.tasks).to.be.an(\"array\");",
+                  "    json.data.tasks.forEach(task => {",
+                  "        pm.expect(task.status).to.eql(\"TODO\");",
+                  "    });",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -109,6 +247,26 @@
         },
         {
           "name": "Mutation - createUser",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Creates a user with the requested name\", function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.errors).to.be.undefined;",
+                  "    pm.expect(json.data.createUser.id).to.exist;",
+                  "    pm.expect(json.data.createUser.name).to.eql(\"Diana\");",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -133,6 +291,26 @@
         },
         {
           "name": "Mutation - createProject",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Creates a project with the requested name\", function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.errors).to.be.undefined;",
+                  "    pm.expect(json.data.createProject.id).to.exist;",
+                  "    pm.expect(json.data.createProject.name).to.eql(\"Backend Revamp\");",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -157,6 +335,28 @@
         },
         {
           "name": "Mutation - createTask with assignee",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Creates TODO task assigned to user 1\", function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.errors).to.be.undefined;",
+                  "    pm.expect(json.data.createTask.title).to.eql(\"Write API tests\");",
+                  "    pm.expect(json.data.createTask.status).to.eql(\"TODO\");",
+                  "    pm.expect(json.data.createTask.project.id).to.eql(\"1\");",
+                  "    pm.expect(json.data.createTask.assignee.id).to.eql(\"1\");",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -181,6 +381,27 @@
         },
         {
           "name": "Mutation - createTask without assignee",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Creates unassigned TODO task\", function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.errors).to.be.undefined;",
+                  "    pm.expect(json.data.createTask.title).to.eql(\"Unassigned documentation task\");",
+                  "    pm.expect(json.data.createTask.status).to.eql(\"TODO\");",
+                  "    pm.expect(json.data.createTask.assignee).to.eql(null);",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -205,6 +426,26 @@
         },
         {
           "name": "Mutation - updateTaskStatus",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Updates task 1 status to DONE\", function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.errors).to.be.undefined;",
+                  "    pm.expect(json.data.updateTaskStatus.id).to.eql(\"1\");",
+                  "    pm.expect(json.data.updateTaskStatus.status).to.eql(\"DONE\");",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -234,6 +475,24 @@
       "item": [
         {
           "name": "Negative - tasks missing required projectId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Returns GraphQL validation error for missing projectId\", function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.errors).to.be.an(\"array\").that.is.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -258,6 +517,24 @@
         },
         {
           "name": "Negative - invalid enum value for tasks status",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Returns GraphQL validation error for invalid status enum\", function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.errors).to.be.an(\"array\").that.is.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -282,6 +559,24 @@
         },
         {
           "name": "Negative - createUser missing required name",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Returns GraphQL validation error for missing input.name\", function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.errors).to.be.an(\"array\").that.is.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -306,6 +601,24 @@
         },
         {
           "name": "Negative - createTask missing title",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Returns GraphQL validation error for missing title\", function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.errors).to.be.an(\"array\").that.is.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -330,6 +643,25 @@
         },
         {
           "name": "Negative - createTask with non-existent projectId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Returns runtime error for non-existent project\", function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.errors).to.be.an(\"array\").that.is.not.empty;",
+                  "    pm.expect(json.errors[0].message).to.include(\"Project\");",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -354,6 +686,25 @@
         },
         {
           "name": "Negative - createTask with non-existent assigneeId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Returns runtime error for non-existent assignee\", function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.errors).to.be.an(\"array\").that.is.not.empty;",
+                  "    pm.expect(json.errors[0].message).to.include(\"Assignee\");",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -378,6 +729,24 @@
         },
         {
           "name": "Negative - updateTaskStatus with invalid enum",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Returns GraphQL validation error for invalid TaskStatus\", function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.errors).to.be.an(\"array\").that.is.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -402,6 +771,25 @@
         },
         {
           "name": "Negative - updateTaskStatus with non-existent taskId",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Returns runtime error for non-existent task\", function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.errors).to.be.an(\"array\").that.is.not.empty;",
+                  "    pm.expect(json.errors[0].message).to.include(\"Task\");",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
@@ -426,6 +814,24 @@
         },
         {
           "name": "Negative - unknown field on Query",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status code is 200\", function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "",
+                  "pm.test(\"Returns GraphQL validation error for unknown field\", function () {",
+                  "    const json = pm.response.json();",
+                  "    pm.expect(json.errors).to.be.an(\"array\").that.is.not.empty;",
+                  "});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "POST",
             "header": [
