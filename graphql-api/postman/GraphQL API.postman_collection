@@ -1,464 +1,609 @@
-{
-  "info": {
-    "_postman_id": "da338484-df66-45d5-a0bc-51c962fee131",
-    "name": "GraphQL API - Project Manager",
-    "description": "Postman collection for GroupMergeWorksD/SI-Mandatory-2 GraphQL API. Includes positive and negative requests for queries and mutations.",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "29482344",
-    "_collection_link": "https://go.postman.co/collection/29482344-da338484-df66-45d5-a0bc-51c962fee131?source=collection_link"
-  },
-  "item": [
-    {
-      "name": "Positive Requests",
-      "item": [
-        {
-          "name": "Query - users",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"query GetUsers { users { id name } }\"\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}{{graphqlPath}}",
-              "host": [
-                "{{baseUrl}}{{graphqlPath}}"
-              ]
-            },
-            "description": "Returns all users."
-          },
-          "response": []
-        },
-        {
-          "name": "Query - projects",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"query GetProjects { projects { id name } }\"\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}{{graphqlPath}}",
-              "host": [
-                "{{baseUrl}}{{graphqlPath}}"
-              ]
-            },
-            "description": "Returns all projects."
-          },
-          "response": []
-        },
-        {
-          "name": "Query - tasks by projectId",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"query GetTasks($projectId: ID!) { tasks(projectId: $projectId) { id title status project { id name } assignee { id name } } }\",\n  \"variables\": {\n    \"projectId\": \"1\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}{{graphqlPath}}",
-              "host": [
-                "{{baseUrl}}{{graphqlPath}}"
-              ]
-            },
-            "description": "Returns tasks for seeded project 1."
-          },
-          "response": []
-        },
-        {
-          "name": "Query - tasks by projectId and status",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"query GetTasksByStatus($projectId: ID!, $status: TaskStatus) { tasks(projectId: $projectId, status: $status) { id title status } }\",\n  \"variables\": {\n    \"projectId\": \"1\",\n    \"status\": \"TODO\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}{{graphqlPath}}",
-              "host": [
-                "{{baseUrl}}{{graphqlPath}}"
-              ]
-            },
-            "description": "Returns TODO tasks for project 1."
-          },
-          "response": []
-        },
-        {
-          "name": "Mutation - createUser",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation CreateUser($input: CreateUserInput!) { createUser(input: $input) { id name } }\",\n  \"variables\": {\n    \"input\": {\n      \"name\": \"Diana\"\n    }\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}{{graphqlPath}}",
-              "host": [
-                "{{baseUrl}}{{graphqlPath}}"
-              ]
-            },
-            "description": "Creates a new user."
-          },
-          "response": []
-        },
-        {
-          "name": "Mutation - createProject",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation CreateProject($input: CreateProjectInput!) { createProject(input: $input) { id name } }\",\n  \"variables\": {\n    \"input\": {\n      \"name\": \"Backend Revamp\"\n    }\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}{{graphqlPath}}",
-              "host": [
-                "{{baseUrl}}{{graphqlPath}}"
-              ]
-            },
-            "description": "Creates a new project."
-          },
-          "response": []
-        },
-        {
-          "name": "Mutation - createTask with assignee",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation CreateTask($input: CreateTaskInput!) { createTask(input: $input) { id title status project { id name } assignee { id name } } }\",\n  \"variables\": {\n    \"input\": {\n      \"projectId\": \"1\",\n      \"title\": \"Write API tests\",\n      \"assigneeId\": \"1\"\n    }\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}{{graphqlPath}}",
-              "host": [
-                "{{baseUrl}}{{graphqlPath}}"
-              ]
-            },
-            "description": "Creates a task in project 1 assigned to user 1. New tasks default to TODO."
-          },
-          "response": []
-        },
-        {
-          "name": "Mutation - createTask without assignee",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation CreateTask($input: CreateTaskInput!) { createTask(input: $input) { id title status assignee { id name } } }\",\n  \"variables\": {\n    \"input\": {\n      \"projectId\": \"1\",\n      \"title\": \"Unassigned documentation task\"\n    }\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}{{graphqlPath}}",
-              "host": [
-                "{{baseUrl}}{{graphqlPath}}"
-              ]
-            },
-            "description": "Creates a task with no assignee."
-          },
-          "response": []
-        },
-        {
-          "name": "Mutation - updateTaskStatus",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation UpdateTaskStatus($taskId: ID!, $status: TaskStatus!) { updateTaskStatus(taskId: $taskId, status: $status) { id title status } }\",\n  \"variables\": {\n    \"taskId\": \"1\",\n    \"status\": \"DONE\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}{{graphqlPath}}",
-              "host": [
-                "{{baseUrl}}{{graphqlPath}}"
-              ]
-            },
-            "description": "Updates seeded task 1 to DONE."
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "Negative Requests",
-      "item": [
-        {
-          "name": "Negative - tasks missing required projectId",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"query { tasks { id title status } }\"\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}{{graphqlPath}}",
-              "host": [
-                "{{baseUrl}}{{graphqlPath}}"
-              ]
-            },
-            "description": "Should fail validation because projectId is required."
-          },
-          "response": []
-        },
-        {
-          "name": "Negative - invalid enum value for tasks status",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"query GetTasksByStatus($projectId: ID!, $status: TaskStatus) { tasks(projectId: $projectId, status: $status) { id title status } }\",\n  \"variables\": {\n    \"projectId\": \"1\",\n    \"status\": \"IN_PROGRESS\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}{{graphqlPath}}",
-              "host": [
-                "{{baseUrl}}{{graphqlPath}}"
-              ]
-            },
-            "description": "Should fail because valid enum values are TODO, DOING, DONE."
-          },
-          "response": []
-        },
-        {
-          "name": "Negative - createUser missing required name",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation CreateUser($input: CreateUserInput!) { createUser(input: $input) { id name } }\",\n  \"variables\": {\n    \"input\": {}\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}{{graphqlPath}}",
-              "host": [
-                "{{baseUrl}}{{graphqlPath}}"
-              ]
-            },
-            "description": "Should fail because input.name is required."
-          },
-          "response": []
-        },
-        {
-          "name": "Negative - createTask missing title",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation CreateTask($input: CreateTaskInput!) { createTask(input: $input) { id title status } }\",\n  \"variables\": {\n    \"input\": {\n      \"projectId\": \"1\"\n    }\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}{{graphqlPath}}",
-              "host": [
-                "{{baseUrl}}{{graphqlPath}}"
-              ]
-            },
-            "description": "Should fail because title is required."
-          },
-          "response": []
-        },
-        {
-          "name": "Negative - createTask with non-existent projectId",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation CreateTask($input: CreateTaskInput!) { createTask(input: $input) { id title status } }\",\n  \"variables\": {\n    \"input\": {\n      \"projectId\": \"9999\",\n      \"title\": \"Should fail\"\n    }\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}{{graphqlPath}}",
-              "host": [
-                "{{baseUrl}}{{graphqlPath}}"
-              ]
-            },
-            "description": "Expected to fail at runtime/database level because project 9999 does not exist."
-          },
-          "response": []
-        },
-        {
-          "name": "Negative - createTask with non-existent assigneeId",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation CreateTask($input: CreateTaskInput!) { createTask(input: $input) { id title status } }\",\n  \"variables\": {\n    \"input\": {\n      \"projectId\": \"1\",\n      \"title\": \"Bad assignee\",\n      \"assigneeId\": \"9999\"\n    }\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}{{graphqlPath}}",
-              "host": [
-                "{{baseUrl}}{{graphqlPath}}"
-              ]
-            },
-            "description": "Expected to fail at runtime/database level because assignee 9999 does not exist."
-          },
-          "response": []
-        },
-        {
-          "name": "Negative - updateTaskStatus with invalid enum",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation UpdateTaskStatus($taskId: ID!, $status: TaskStatus!) { updateTaskStatus(taskId: $taskId, status: $status) { id title status } }\",\n  \"variables\": {\n    \"taskId\": \"1\",\n    \"status\": \"BLOCKED\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}{{graphqlPath}}",
-              "host": [
-                "{{baseUrl}}{{graphqlPath}}"
-              ]
-            },
-            "description": "Should fail validation because BLOCKED is not a valid TaskStatus."
-          },
-          "response": []
-        },
-        {
-          "name": "Negative - updateTaskStatus with non-existent taskId",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"mutation UpdateTaskStatus($taskId: ID!, $status: TaskStatus!) { updateTaskStatus(taskId: $taskId, status: $status) { id title status } }\",\n  \"variables\": {\n    \"taskId\": \"9999\",\n    \"status\": \"DONE\"\n  }\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}{{graphqlPath}}",
-              "host": [
-                "{{baseUrl}}{{graphqlPath}}"
-              ]
-            },
-            "description": "Should fail with runtime error because schema.py raises ValueError when the task is not found after update."
-          },
-          "response": []
-        },
-        {
-          "name": "Negative - unknown field on Query",
-          "request": {
-            "method": "POST",
-            "header": [
-              {
-                "key": "Content-Type",
-                "value": "application/json"
-              }
-            ],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n  \"query\": \"query { unknownField }\"\n}"
-            },
-            "url": {
-              "raw": "{{baseUrl}}{{graphqlPath}}",
-              "host": [
-                "{{baseUrl}}{{graphqlPath}}"
-              ]
-            },
-            "description": "Should fail because unknownField does not exist on Query."
-          },
-          "response": []
-        }
-      ]
-    }
-  ],
-  "variable": [
-    {
-      "key": "baseUrl",
-      "value": "http://localhost:8083"
-    },
-    {
-      "key": "graphqlPath",
-      "value": "/graphql"
-    }
-  ]
+﻿{
+    "info":  {
+                 "_postman_id":  "da338484-df66-45d5-a0bc-51c962fee131",
+                 "name":  "GraphQL API - Project Manager",
+                 "description":  "Postman collection for GroupMergeWorksD/SI-Mandatory-2 GraphQL API. Includes positive and negative requests for queries and mutations.",
+                 "schema":  "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+                 "_exporter_id":  "29482344",
+                 "_collection_link":  "https://go.postman.co/collection/29482344-da338484-df66-45d5-a0bc-51c962fee131?source=collection_link"
+             },
+    "item":  [
+                 {
+                     "name":  "Positive Requests",
+                     "item":  [
+                                  {
+                                      "name":  "Query - users",
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "graphql",
+                                                                   "graphql":  {
+                                                                                   "query":  "query GetUsers { users { id name } }",
+                                                                                   "variables":  "{}"
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}{{graphqlPath}}",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}{{graphqlPath}}"
+                                                                           ]
+                                                              },
+                                                      "description":  "Returns all users."
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Query - projects",
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "graphql",
+                                                                   "graphql":  {
+                                                                                   "query":  "query GetProjects { projects { id name } }",
+                                                                                   "variables":  "{}"
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}{{graphqlPath}}",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}{{graphqlPath}}"
+                                                                           ]
+                                                              },
+                                                      "description":  "Returns all projects."
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Query - tasks by projectId",
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "graphql",
+                                                                   "graphql":  {
+                                                                                   "query":  "query GetTasks($projectId: ID!) { tasks(projectId: $projectId) { id title status project { id name } assignee { id name } } }",
+                                                                                   "variables":  "{\"projectId\":\"1\"}"
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}{{graphqlPath}}",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}{{graphqlPath}}"
+                                                                           ]
+                                                              },
+                                                      "description":  "Returns tasks for seeded project 1."
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Query - tasks by projectId and status",
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "graphql",
+                                                                   "graphql":  {
+                                                                                   "query":  "query GetTasksByStatus($projectId: ID!, $status: TaskStatus) { tasks(projectId: $projectId, status: $status) { id title status } }",
+                                                                                   "variables":  "{\"projectId\":\"1\",\"status\":\"TODO\"}"
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}{{graphqlPath}}",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}{{graphqlPath}}"
+                                                                           ]
+                                                              },
+                                                      "description":  "Returns TODO tasks for project 1."
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Mutation - createUser",
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "graphql",
+                                                                   "graphql":  {
+                                                                                   "query":  "mutation CreateUser($input: CreateUserInput!) { createUser(input: $input) { id name } }",
+                                                                                   "variables":  "{\"input\":{\"name\":\"Diana\"}}"
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}{{graphqlPath}}",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}{{graphqlPath}}"
+                                                                           ]
+                                                              },
+                                                      "description":  "Creates a new user."
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Mutation - createProject",
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "graphql",
+                                                                   "graphql":  {
+                                                                                   "query":  "mutation CreateProject($input: CreateProjectInput!) { createProject(input: $input) { id name } }",
+                                                                                   "variables":  "{\"input\":{\"name\":\"Backend Revamp\"}}"
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}{{graphqlPath}}",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}{{graphqlPath}}"
+                                                                           ]
+                                                              },
+                                                      "description":  "Creates a new project."
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Mutation - createTask with assignee",
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "graphql",
+                                                                   "graphql":  {
+                                                                                   "query":  "mutation CreateTask($input: CreateTaskInput!) { createTask(input: $input) { id title status project { id name } assignee { id name } } }",
+                                                                                   "variables":  "{\"input\":{\"projectId\":\"1\",\"title\":\"Write API tests\",\"assigneeId\":\"1\"}}"
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}{{graphqlPath}}",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}{{graphqlPath}}"
+                                                                           ]
+                                                              },
+                                                      "description":  "Creates a task in project 1 assigned to user 1. New tasks default to TODO."
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Mutation - createTask without assignee",
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "graphql",
+                                                                   "graphql":  {
+                                                                                   "query":  "mutation CreateTask($input: CreateTaskInput!) { createTask(input: $input) { id title status assignee { id name } } }",
+                                                                                   "variables":  "{\"input\":{\"projectId\":\"1\",\"title\":\"Unassigned documentation task\"}}"
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}{{graphqlPath}}",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}{{graphqlPath}}"
+                                                                           ]
+                                                              },
+                                                      "description":  "Creates a task with no assignee."
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Mutation - updateTaskStatus",
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "graphql",
+                                                                   "graphql":  {
+                                                                                   "query":  "mutation UpdateTaskStatus($taskId: ID!, $status: TaskStatus!) { updateTaskStatus(taskId: $taskId, status: $status) { id title status } }",
+                                                                                   "variables":  "{\"taskId\":\"1\",\"status\":\"DONE\"}"
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}{{graphqlPath}}",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}{{graphqlPath}}"
+                                                                           ]
+                                                              },
+                                                      "description":  "Updates seeded task 1 to DONE."
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  }
+                              ]
+                 },
+                 {
+                     "name":  "Negative Requests",
+                     "item":  [
+                                  {
+                                      "name":  "Negative - tasks missing required projectId",
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "graphql",
+                                                                   "graphql":  {
+                                                                                   "query":  "query { tasks { id title status } }",
+                                                                                   "variables":  "{}"
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}{{graphqlPath}}",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}{{graphqlPath}}"
+                                                                           ]
+                                                              },
+                                                      "description":  "Should fail validation because projectId is required."
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Negative - invalid enum value for tasks status",
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "graphql",
+                                                                   "graphql":  {
+                                                                                   "query":  "query GetTasksByStatus($projectId: ID!, $status: TaskStatus) { tasks(projectId: $projectId, status: $status) { id title status } }",
+                                                                                   "variables":  "{\"projectId\":\"1\",\"status\":\"IN_PROGRESS\"}"
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}{{graphqlPath}}",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}{{graphqlPath}}"
+                                                                           ]
+                                                              },
+                                                      "description":  "Should fail because valid enum values are TODO, DOING, DONE."
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Negative - createUser missing required name",
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "graphql",
+                                                                   "graphql":  {
+                                                                                   "query":  "mutation CreateUser($input: CreateUserInput!) { createUser(input: $input) { id name } }",
+                                                                                   "variables":  "{\"input\":{}}"
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}{{graphqlPath}}",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}{{graphqlPath}}"
+                                                                           ]
+                                                              },
+                                                      "description":  "Should fail because input.name is required."
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Negative - createTask missing title",
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "graphql",
+                                                                   "graphql":  {
+                                                                                   "query":  "mutation CreateTask($input: CreateTaskInput!) { createTask(input: $input) { id title status } }",
+                                                                                   "variables":  "{\"input\":{\"projectId\":\"1\"}}"
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}{{graphqlPath}}",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}{{graphqlPath}}"
+                                                                           ]
+                                                              },
+                                                      "description":  "Should fail because title is required."
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Negative - createTask with non-existent projectId",
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "graphql",
+                                                                   "graphql":  {
+                                                                                   "query":  "mutation CreateTask($input: CreateTaskInput!) { createTask(input: $input) { id title status } }",
+                                                                                   "variables":  "{\"input\":{\"projectId\":\"9999\",\"title\":\"Should fail\"}}"
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}{{graphqlPath}}",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}{{graphqlPath}}"
+                                                                           ]
+                                                              },
+                                                      "description":  "Expected to fail at runtime/database level because project 9999 does not exist."
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Negative - createTask with non-existent assigneeId",
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "graphql",
+                                                                   "graphql":  {
+                                                                                   "query":  "mutation CreateTask($input: CreateTaskInput!) { createTask(input: $input) { id title status } }",
+                                                                                   "variables":  "{\"input\":{\"projectId\":\"1\",\"title\":\"Bad assignee\",\"assigneeId\":\"9999\"}}"
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}{{graphqlPath}}",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}{{graphqlPath}}"
+                                                                           ]
+                                                              },
+                                                      "description":  "Expected to fail at runtime/database level because assignee 9999 does not exist."
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Negative - updateTaskStatus with invalid enum",
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "graphql",
+                                                                   "graphql":  {
+                                                                                   "query":  "mutation UpdateTaskStatus($taskId: ID!, $status: TaskStatus!) { updateTaskStatus(taskId: $taskId, status: $status) { id title status } }",
+                                                                                   "variables":  "{\"taskId\":\"1\",\"status\":\"BLOCKED\"}"
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}{{graphqlPath}}",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}{{graphqlPath}}"
+                                                                           ]
+                                                              },
+                                                      "description":  "Should fail validation because BLOCKED is not a valid TaskStatus."
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Negative - updateTaskStatus with non-existent taskId",
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "graphql",
+                                                                   "graphql":  {
+                                                                                   "query":  "mutation UpdateTaskStatus($taskId: ID!, $status: TaskStatus!) { updateTaskStatus(taskId: $taskId, status: $status) { id title status } }",
+                                                                                   "variables":  "{\"taskId\":\"9999\",\"status\":\"DONE\"}"
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}{{graphqlPath}}",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}{{graphqlPath}}"
+                                                                           ]
+                                                              },
+                                                      "description":  "Should fail with runtime error because schema.py raises ValueError when the task is not found after update."
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  },
+                                  {
+                                      "name":  "Negative - unknown field on Query",
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "graphql",
+                                                                   "graphql":  {
+                                                                                   "query":  "query { unknownField }",
+                                                                                   "variables":  "{}"
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}{{graphqlPath}}",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}{{graphqlPath}}"
+                                                                           ]
+                                                              },
+                                                      "description":  "Should fail because unknownField does not exist on Query."
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  }
+                              ]
+                 },
+                 {
+                     "name":  "Discoverability",
+                     "item":  [
+                                  {
+                                      "name":  "Introspection - schema types",
+                                      "event":  [
+                                                    {
+                                                        "listen":  "test",
+                                                        "script":  {
+                                                                       "exec":  [
+                                                                                    "pm.test(\"returns HTTP 200\", function () {",
+                                                                                    "    pm.response.to.have.status(200);",
+                                                                                    "});",
+                                                                                    "",
+                                                                                    "pm.test(\"introspection returns schema data\", function () {",
+                                                                                    "    const json = pm.response.json();",
+                                                                                    "    pm.expect(json).to.have.nested.property(\"data.__schema.queryType.name\", \"Query\");",
+                                                                                    "    pm.expect(json).to.have.nested.property(\"data.__schema.mutationType.name\", \"Mutation\");",
+                                                                                    "    const typeNames = json.data.__schema.types.map(type =\u003e type.name);",
+                                                                                    "    pm.expect(typeNames).to.include.members([\"User\", \"Project\", \"Task\", \"TaskStatus\"]);",
+                                                                                    "});"
+                                                                                ],
+                                                                       "type":  "text/javascript"
+                                                                   }
+                                                    }
+                                                ],
+                                      "request":  {
+                                                      "method":  "POST",
+                                                      "header":  [
+                                                                     {
+                                                                         "key":  "Content-Type",
+                                                                         "value":  "application/json"
+                                                                     }
+                                                                 ],
+                                                      "body":  {
+                                                                   "mode":  "graphql",
+                                                                   "graphql":  {
+                                                                                   "query":  "query DiscoverSchema { __schema { queryType { name } mutationType { name } types { name kind } } }",
+                                                                                   "variables":  "{}"
+                                                                               }
+                                                               },
+                                                      "url":  {
+                                                                  "raw":  "{{baseUrl}}{{graphqlPath}}",
+                                                                  "host":  [
+                                                                               "{{baseUrl}}{{graphqlPath}}"
+                                                                           ]
+                                                              },
+                                                      "description":  "Verifies GraphQL introspection/discoverability is available over the same endpoint used by the collection."
+                                                  },
+                                      "response":  [
+
+                                                   ]
+                                  }
+                              ]
+                 }
+             ],
+    "variable":  [
+                     {
+                         "key":  "baseUrl",
+                         "value":  "http://localhost:8083"
+                     },
+                     {
+                         "key":  "graphqlPath",
+                         "value":  "/graphql"
+                     }
+                 ]
 }
