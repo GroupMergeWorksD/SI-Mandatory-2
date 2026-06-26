@@ -115,6 +115,10 @@
 
     <xs:element name="invalidReservationTimeFault" type="tns:faultDetail"/>
 
+    <xs:element name="invalidRequestFault" type="tns:faultDetail"/>
+
+    <xs:element name="invalidUuidFault" type="tns:faultDetail"/>
+
     <xs:complexType name="faultDetail">
         <xs:sequence>
             <xs:element name="message" type="tns:nonBlankString"/>

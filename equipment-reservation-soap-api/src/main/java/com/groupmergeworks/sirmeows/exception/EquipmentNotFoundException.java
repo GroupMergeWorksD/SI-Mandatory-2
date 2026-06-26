@@ -1,11 +1,18 @@
 package com.groupmergeworks.sirmeows.exception;
 
-import org.springframework.ws.soap.server.endpoint.annotation.FaultCode;
-import org.springframework.ws.soap.server.endpoint.annotation.SoapFault;
+import lombok.Getter;
 
-@SoapFault(faultCode = FaultCode.CLIENT)
+import java.util.UUID;
+
+@Getter
 public class EquipmentNotFoundException extends RuntimeException {
-    public EquipmentNotFoundException(String message) {
-        super(message);
+
+    private static final String message = "Equipment not found: %s";
+
+    private final UUID equipmentId;
+
+    public EquipmentNotFoundException(UUID equipmentId) {
+        super(String.format(message, equipmentId.toString()));
+        this.equipmentId = equipmentId;
     }
 }

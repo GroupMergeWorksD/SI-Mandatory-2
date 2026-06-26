@@ -8,6 +8,7 @@ public final class SoapConstants {
     public static final String WS_PATH_PATTERN = "/ws/*";
     public static final String XSD_PATH = "xsd/equipment-reservation-soap-api.xsd";
     public static final String PORT_TYPE_NAME = "EquipmentReservationPort";
+    public static final String SOAP_PACKAGE = "com.groupmergeworks.sirmeows.soap";
 
     private SoapConstants() {
     }
