@@ -49,9 +49,10 @@ src/main/resources/application.properties
 
 .env
 
-# agent instructions
+# local docs
 AGENTS.md
-
-# assignment pdf
-**/si-mand-assignment-2.pdf
+CLAUDE.md
+si-mand-assignment-2.pdf
+exam_information.pdf
+TODO.md
 
