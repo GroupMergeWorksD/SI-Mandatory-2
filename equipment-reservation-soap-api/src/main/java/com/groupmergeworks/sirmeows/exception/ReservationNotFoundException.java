@@ -1,11 +1,18 @@
 package com.groupmergeworks.sirmeows.exception;
 
-import org.springframework.ws.soap.server.endpoint.annotation.FaultCode;
-import org.springframework.ws.soap.server.endpoint.annotation.SoapFault;
+import lombok.Getter;
 
-@SoapFault(faultCode = FaultCode.CLIENT)
+import java.util.UUID;
+
+@Getter
 public class ReservationNotFoundException extends RuntimeException {
-    public ReservationNotFoundException(String message) {
-        super(message);
+
+    private static final String message = "Reservation not found: %s";
+
+    private final UUID reservationId;
+
+    public ReservationNotFoundException(UUID reservationId) {
+        super(String.format(message, reservationId.toString()));
+        this.reservationId = reservationId;
     }
 }

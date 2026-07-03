@@ -26,29 +26,29 @@ public class EquipmentReservationService {
     }
     public Reservation getReservation(UUID reservationId) {
         return reservationRepository.findById(reservationId)
-                .orElseThrow(() -> new ReservationNotFoundException("Reservation not found: " + reservationId));
+                .orElseThrow(() -> new ReservationNotFoundException(reservationId));
     }
 
     public UUID deleteReservation(UUID reservationId) {
-         var reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new ReservationNotFoundException("Reservation not found: " + reservationId));
+         var reservation = reservationRepository.findById(reservationId).orElseThrow(() -> new ReservationNotFoundException(reservationId));
          reservationRepository.delete(reservation);
          return reservation.getId();
     }
 
     public Reservation createReservation(UUID equipmentId, OffsetDateTime startTime, OffsetDateTime endTime) {
         var equipment = equipmentRepository.findById(equipmentId)
-                .orElseThrow(() -> new EquipmentNotFoundException("Equipment not found: " + equipmentId));
+                .orElseThrow(() -> new EquipmentNotFoundException(equipmentId));
 
         if (!validateTimeRange(startTime, endTime)) {
-            throw new InvalidReservationTimeException("Invalid time range. Start time must be before end time.");
+            throw new InvalidReservationTimeException();
         }
 
         if (!validateEquipmentCanBeReserved(equipment)) {
-            throw new EquipmentUnavailableException("Equipment is not active and can not be reserved.");
+            throw new EquipmentUnavailableException(equipment.getId());
         }
 
         if (!validateEquipmentAvailability(equipment, startTime, endTime)) {
-            throw new ReservationConflictException("Equipment is not available at the requested time.");
+            throw new ReservationConflictException(equipment.getId());
         }
 
         var reservation = Reservation.builder().

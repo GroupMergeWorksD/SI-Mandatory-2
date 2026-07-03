@@ -1,8 +1,1329 @@
-﻿{
+{
     "info":  {
+                 "_postman_id":  "a47a8666-77bf-4344-bbd6-faa6bb090570",
                  "name":  "equipment-reservation-soap-api",
                  "schema":  "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
              },
+    "item":  [
+                 {
+                     "name":  "create-reservation-success",
+                     "event":  [
+                                   {
+                                       "listen":  "test",
+                                       "script":  {
+                                                      "type":  "text/javascript",
+                                                      "exec":  [
+                                                                   "pm.test(\"returns HTTP 200\", function () {",
+                                                                   "    pm.response.to.have.status(200);",
+                                                                   "});",
+                                                                   "",
+                                                                   "pm.test(\"returns reservation data\", function () {",
+                                                                   "    const body = pm.response.text();",
+                                                                   "    pm.expect(body).to.match(/\u003c[^\u003e]*:?reservationId\u003e/);",
+                                                                   "    pm.expect(body).to.include(pm.collectionVariables.get(\"availableEquipmentId\"));",
+                                                                   "    pm.expect(body).to.include(\"2026-06-10T09:00:00\");",
+                                                                   "    pm.expect(body).to.include(\"2026-06-10T11:00:00\");",
+                                                                   "    pm.expect(body).to.not.include(\"\u003cSOAP-ENV:Fault\u003e\");",
+                                                                   "});"
+                                                               ]
+                                                  }
+                                   }
+                               ],
+                     "id":  "f30748e3-ca4f-476c-b12f-f05f86ce9190",
+                     "protocolProfileBehavior":  {
+                                                     "disableBodyPruning":  true
+                                                 },
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "text/xml; charset=utf-8"
+                                                    },
+                                                    {
+                                                        "key":  "Accept",
+                                                        "value":  "text/xml"
+                                                    }
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "\u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e\n\u003csoapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\"\u003e\n   \u003csoapenv:Header/\u003e\n   \u003csoapenv:Body\u003e\n      \u003cres:createReservationRequest\u003e\n         \u003cres:equipmentId\u003e{{availableEquipmentId}}\u003c/res:equipmentId\u003e\n         \u003cres:startTime\u003e{{validStartTime}}\u003c/res:startTime\u003e\n         \u003cres:endTime\u003e{{validEndTime}}\u003c/res:endTime\u003e\n      \u003c/res:createReservationRequest\u003e\n   \u003c/soapenv:Body\u003e\n\u003c/soapenv:Envelope\u003e"
+                                              },
+                                     "url":  {
+                                                 "raw":  "{{baseUrl}}/ws",
+                                                 "host":  [
+                                                              "{{baseUrl}}"
+                                                          ],
+                                                 "path":  [
+                                                              "ws"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ],
+                     "createdAt":  "2026-06-02T10:24:28.000Z",
+                     "updatedAt":  "2026-06-02T10:24:28.000Z",
+                     "uid":  "19470254-f30748e3-ca4f-476c-b12f-f05f86ce9190"
+                 },
+                 {
+                     "name":  "create-reservation-invalid-equipment-id",
+                     "event":  [
+                                   {
+                                       "listen":  "test",
+                                       "script":  {
+                                                      "type":  "text/javascript",
+                                                      "exec":  [
+                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
+                                                                   "    pm.response.to.have.status(500);",
+                                                                   "});",
+                                                                   "",
+                                                                   "pm.test(\"returns invalid equipment id fault\", function () {",
+                                                                   "    const body = pm.response.text();",
+                                                                   "    pm.expect(body).to.include(\"\u003cSOAP-ENV:Fault\u003e\");",
+                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
+                                                                   "    pm.expect(body).to.include(\"equipmentId must be a valid UUID\");",
+                                                                   "    pm.expect(body).to.include(\"invalidUuidFault\");",
+                                                                   "});"
+                                                               ]
+                                                  }
+                                   }
+                               ],
+                     "id":  "2e3909f2-a1df-4a5c-8ced-7902db2907c7",
+                     "protocolProfileBehavior":  {
+                                                     "disableBodyPruning":  true
+                                                 },
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "text/xml; charset=utf-8"
+                                                    },
+                                                    {
+                                                        "key":  "Accept",
+                                                        "value":  "text/xml"
+                                                    }
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "\u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e\n\u003csoapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\"\u003e\n   \u003csoapenv:Header/\u003e\n   \u003csoapenv:Body\u003e\n      \u003cres:createReservationRequest\u003e\n         \u003cres:equipmentId\u003enot-a-uuid\u003c/res:equipmentId\u003e\n         \u003cres:startTime\u003e{{validStartTime}}\u003c/res:startTime\u003e\n         \u003cres:endTime\u003e{{validEndTime}}\u003c/res:endTime\u003e\n      \u003c/res:createReservationRequest\u003e\n   \u003c/soapenv:Body\u003e\n\u003c/soapenv:Envelope\u003e"
+                                              },
+                                     "url":  {
+                                                 "raw":  "{{baseUrl}}/ws",
+                                                 "host":  [
+                                                              "{{baseUrl}}"
+                                                          ],
+                                                 "path":  [
+                                                              "ws"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ],
+                     "createdAt":  "2026-06-02T10:24:28.000Z",
+                     "updatedAt":  "2026-06-02T10:24:28.000Z",
+                     "uid":  "19470254-2e3909f2-a1df-4a5c-8ced-7902db2907c7"
+                 },
+                 {
+                     "name":  "create-reservation-missing-start-time",
+                     "event":  [
+                                   {
+                                       "listen":  "test",
+                                       "script":  {
+                                                      "type":  "text/javascript",
+                                                      "exec":  [
+                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
+                                                                   "    pm.response.to.have.status(500);",
+                                                                   "});",
+                                                                   "",
+                                                                   "pm.test(\"returns missing start time fault\", function () {",
+                                                                   "    const body = pm.response.text();",
+                                                                   "    pm.expect(body).to.include(\"\u003cSOAP-ENV:Fault\u003e\");",
+                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
+                                                                   "    pm.expect(body).to.include(\"startTime is required\");",
+                                                                   "    pm.expect(body).to.include(\"invalidRequestFault\");",
+                                                                   "});"
+                                                               ]
+                                                  }
+                                   }
+                               ],
+                     "id":  "697ab25b-c07e-40ad-9c4f-dacb5265fc14",
+                     "protocolProfileBehavior":  {
+                                                     "disableBodyPruning":  true
+                                                 },
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "text/xml; charset=utf-8"
+                                                    },
+                                                    {
+                                                        "key":  "Accept",
+                                                        "value":  "text/xml"
+                                                    }
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "\u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e\n\u003csoapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\"\u003e\n   \u003csoapenv:Header/\u003e\n   \u003csoapenv:Body\u003e\n      \u003cres:createReservationRequest\u003e\n         \u003cres:equipmentId\u003e{{availableEquipmentId}}\u003c/res:equipmentId\u003e\n         \u003cres:endTime\u003e{{validEndTime}}\u003c/res:endTime\u003e\n      \u003c/res:createReservationRequest\u003e\n   \u003c/soapenv:Body\u003e\n\u003c/soapenv:Envelope\u003e"
+                                              },
+                                     "url":  {
+                                                 "raw":  "{{baseUrl}}/ws",
+                                                 "host":  [
+                                                              "{{baseUrl}}"
+                                                          ],
+                                                 "path":  [
+                                                              "ws"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ],
+                     "createdAt":  "2026-06-02T10:24:28.000Z",
+                     "updatedAt":  "2026-06-02T10:24:28.000Z",
+                     "uid":  "19470254-697ab25b-c07e-40ad-9c4f-dacb5265fc14"
+                 },
+                 {
+                     "name":  "create-reservation-equipment-not-found",
+                     "event":  [
+                                   {
+                                       "listen":  "test",
+                                       "script":  {
+                                                      "type":  "text/javascript",
+                                                      "exec":  [
+                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
+                                                                   "    pm.response.to.have.status(500);",
+                                                                   "});",
+                                                                   "",
+                                                                   "pm.test(\"returns equipment not found fault\", function () {",
+                                                                   "    const body = pm.response.text();",
+                                                                   "    pm.expect(body).to.include(\"\u003cSOAP-ENV:Fault\u003e\");",
+                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
+                                                                   "    pm.expect(body).to.include(\"Equipment not found\");",
+                                                                   "    pm.expect(body).to.include(\"equipmentNotFoundFault\");",
+                                                                   "    pm.expect(body).to.include(\"resourceId\");",
+                                                                   "});"
+                                                               ]
+                                                  }
+                                   }
+                               ],
+                     "id":  "e50eb41b-859a-4b39-80e7-ed1bb8c35175",
+                     "protocolProfileBehavior":  {
+                                                     "disableBodyPruning":  true
+                                                 },
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "text/xml; charset=utf-8"
+                                                    },
+                                                    {
+                                                        "key":  "Accept",
+                                                        "value":  "text/xml"
+                                                    }
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "\u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e\n\u003csoapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\"\u003e\n   \u003csoapenv:Header/\u003e\n   \u003csoapenv:Body\u003e\n      \u003cres:createReservationRequest\u003e\n         \u003cres:equipmentId\u003e{{missingEquipmentId}}\u003c/res:equipmentId\u003e\n         \u003cres:startTime\u003e{{validStartTime}}\u003c/res:startTime\u003e\n         \u003cres:endTime\u003e{{validEndTime}}\u003c/res:endTime\u003e\n      \u003c/res:createReservationRequest\u003e\n   \u003c/soapenv:Body\u003e\n\u003c/soapenv:Envelope\u003e"
+                                              },
+                                     "url":  {
+                                                 "raw":  "{{baseUrl}}/ws",
+                                                 "host":  [
+                                                              "{{baseUrl}}"
+                                                          ],
+                                                 "path":  [
+                                                              "ws"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ],
+                     "createdAt":  "2026-06-02T10:24:28.000Z",
+                     "updatedAt":  "2026-06-02T10:24:28.000Z",
+                     "uid":  "19470254-e50eb41b-859a-4b39-80e7-ed1bb8c35175"
+                 },
+                 {
+                     "name":  "create-reservation-invalid-time-range",
+                     "event":  [
+                                   {
+                                       "listen":  "test",
+                                       "script":  {
+                                                      "type":  "text/javascript",
+                                                      "exec":  [
+                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
+                                                                   "    pm.response.to.have.status(500);",
+                                                                   "});",
+                                                                   "",
+                                                                   "pm.test(\"returns invalid time fault\", function () {",
+                                                                   "    const body = pm.response.text();",
+                                                                   "    pm.expect(body).to.include(\"\u003cSOAP-ENV:Fault\u003e\");",
+                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
+                                                                   "    pm.expect(body).to.include(\"Invalid time range\");",
+                                                                   "    pm.expect(body).to.include(\"invalidReservationTimeFault\");",
+                                                                   "});"
+                                                               ]
+                                                  }
+                                   }
+                               ],
+                     "id":  "2cfc0e7c-7925-4cc2-b21c-fab90b0c7b9d",
+                     "protocolProfileBehavior":  {
+                                                     "disableBodyPruning":  true
+                                                 },
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "text/xml; charset=utf-8"
+                                                    },
+                                                    {
+                                                        "key":  "Accept",
+                                                        "value":  "text/xml"
+                                                    }
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "\u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e\n\u003csoapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\"\u003e\n   \u003csoapenv:Header/\u003e\n   \u003csoapenv:Body\u003e\n      \u003cres:createReservationRequest\u003e\n         \u003cres:equipmentId\u003e{{availableEquipmentId}}\u003c/res:equipmentId\u003e\n         \u003cres:startTime\u003e{{invalidStartTime}}\u003c/res:startTime\u003e\n         \u003cres:endTime\u003e{{invalidEndTime}}\u003c/res:endTime\u003e\n      \u003c/res:createReservationRequest\u003e\n   \u003c/soapenv:Body\u003e\n\u003c/soapenv:Envelope\u003e"
+                                              },
+                                     "url":  {
+                                                 "raw":  "{{baseUrl}}/ws",
+                                                 "host":  [
+                                                              "{{baseUrl}}"
+                                                          ],
+                                                 "path":  [
+                                                              "ws"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ],
+                     "createdAt":  "2026-06-02T10:24:28.000Z",
+                     "updatedAt":  "2026-06-02T10:24:28.000Z",
+                     "uid":  "19470254-2cfc0e7c-7925-4cc2-b21c-fab90b0c7b9d"
+                 },
+                 {
+                     "name":  "create-reservation-equipment-unavailable",
+                     "event":  [
+                                   {
+                                       "listen":  "test",
+                                       "script":  {
+                                                      "type":  "text/javascript",
+                                                      "exec":  [
+                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
+                                                                   "    pm.response.to.have.status(500);",
+                                                                   "});",
+                                                                   "",
+                                                                   "pm.test(\"returns equipment unavailable fault\", function () {",
+                                                                   "    const body = pm.response.text();",
+                                                                   "    pm.expect(body).to.include(\"\u003cSOAP-ENV:Fault\u003e\");",
+                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
+                                                                   "    pm.expect(body).to.include(\"is not active and can not be reserved\");",
+                                                                   "    pm.expect(body).to.include(\"equipmentUnavailableFault\");",
+                                                                   "    pm.expect(body).to.include(\"resourceId\");",
+                                                                   "});"
+                                                               ]
+                                                  }
+                                   }
+                               ],
+                     "id":  "86429a08-2f2a-42b6-a2c3-6c0c4a00c20d",
+                     "protocolProfileBehavior":  {
+                                                     "disableBodyPruning":  true
+                                                 },
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "text/xml; charset=utf-8"
+                                                    },
+                                                    {
+                                                        "key":  "Accept",
+                                                        "value":  "text/xml"
+                                                    }
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "\u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e\n\u003csoapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\"\u003e\n   \u003csoapenv:Header/\u003e\n   \u003csoapenv:Body\u003e\n      \u003cres:createReservationRequest\u003e\n         \u003cres:equipmentId\u003e{{maintenanceEquipmentId}}\u003c/res:equipmentId\u003e\n         \u003cres:startTime\u003e{{validStartTime}}\u003c/res:startTime\u003e\n         \u003cres:endTime\u003e{{validEndTime}}\u003c/res:endTime\u003e\n      \u003c/res:createReservationRequest\u003e\n   \u003c/soapenv:Body\u003e\n\u003c/soapenv:Envelope\u003e"
+                                              },
+                                     "url":  {
+                                                 "raw":  "{{baseUrl}}/ws",
+                                                 "host":  [
+                                                              "{{baseUrl}}"
+                                                          ],
+                                                 "path":  [
+                                                              "ws"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ],
+                     "createdAt":  "2026-06-02T10:24:28.000Z",
+                     "updatedAt":  "2026-06-02T10:24:28.000Z",
+                     "uid":  "19470254-86429a08-2f2a-42b6-a2c3-6c0c4a00c20d"
+                 },
+                 {
+                     "name":  "create-reservation-conflict",
+                     "event":  [
+                                   {
+                                       "listen":  "test",
+                                       "script":  {
+                                                      "type":  "text/javascript",
+                                                      "exec":  [
+                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
+                                                                   "    pm.response.to.have.status(500);",
+                                                                   "});",
+                                                                   "",
+                                                                   "pm.test(\"returns reservation conflict fault\", function () {",
+                                                                   "    const body = pm.response.text();",
+                                                                   "    pm.expect(body).to.include(\"\u003cSOAP-ENV:Fault\u003e\");",
+                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
+                                                                   "    pm.expect(body).to.include(\"is not available at the requested time\");",
+                                                                   "    pm.expect(body).to.include(\"reservationConflictFault\");",
+                                                                   "    pm.expect(body).to.include(\"resourceId\");",
+                                                                   "});"
+                                                               ]
+                                                  }
+                                   }
+                               ],
+                     "id":  "19ae632c-d235-4c53-a5cd-9b6039a71248",
+                     "protocolProfileBehavior":  {
+                                                     "disableBodyPruning":  true
+                                                 },
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "text/xml; charset=utf-8"
+                                                    },
+                                                    {
+                                                        "key":  "Accept",
+                                                        "value":  "text/xml"
+                                                    }
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "\u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e\n\u003csoapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\"\u003e\n   \u003csoapenv:Header/\u003e\n   \u003csoapenv:Body\u003e\n      \u003cres:createReservationRequest\u003e\n         \u003cres:equipmentId\u003e{{bookedEquipmentId}}\u003c/res:equipmentId\u003e\n         \u003cres:startTime\u003e{{overlapStartTime}}\u003c/res:startTime\u003e\n         \u003cres:endTime\u003e{{overlapEndTime}}\u003c/res:endTime\u003e\n      \u003c/res:createReservationRequest\u003e\n   \u003c/soapenv:Body\u003e\n\u003c/soapenv:Envelope\u003e"
+                                              },
+                                     "url":  {
+                                                 "raw":  "{{baseUrl}}/ws",
+                                                 "host":  [
+                                                              "{{baseUrl}}"
+                                                          ],
+                                                 "path":  [
+                                                              "ws"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ],
+                     "createdAt":  "2026-06-02T10:24:28.000Z",
+                     "updatedAt":  "2026-06-02T10:24:28.000Z",
+                     "uid":  "19470254-19ae632c-d235-4c53-a5cd-9b6039a71248"
+                 },
+                 {
+                     "name":  "get-reservation-success",
+                     "event":  [
+                                   {
+                                       "listen":  "test",
+                                       "script":  {
+                                                      "type":  "text/javascript",
+                                                      "exec":  [
+                                                                   "pm.test(\"returns HTTP 200\", function () {",
+                                                                   "    pm.response.to.have.status(200);",
+                                                                   "});",
+                                                                   "",
+                                                                   "pm.test(\"returns existing reservation\", function () {",
+                                                                   "    const body = pm.response.text();",
+                                                                   "    pm.expect(body).to.include(pm.collectionVariables.get(\"existingReservationId\"));",
+                                                                   "    pm.expect(body).to.include(pm.collectionVariables.get(\"bookedEquipmentId\"));",
+                                                                   "    pm.expect(body).to.include(\"Projector A\");",
+                                                                   "    pm.expect(body).to.not.include(\"\u003cSOAP-ENV:Fault\u003e\");",
+                                                                   "});"
+                                                               ]
+                                                  }
+                                   }
+                               ],
+                     "id":  "876dd064-a6c7-4199-8bc3-ee59250d60c2",
+                     "protocolProfileBehavior":  {
+                                                     "disableBodyPruning":  true
+                                                 },
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "text/xml; charset=utf-8"
+                                                    },
+                                                    {
+                                                        "key":  "Accept",
+                                                        "value":  "text/xml"
+                                                    }
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "\u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e\n\u003csoapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\"\u003e\n   \u003csoapenv:Header/\u003e\n   \u003csoapenv:Body\u003e\n      \u003cres:getReservationRequest\u003e\n         \u003cres:reservationId\u003e{{existingReservationId}}\u003c/res:reservationId\u003e\n      \u003c/res:getReservationRequest\u003e\n   \u003c/soapenv:Body\u003e\n\u003c/soapenv:Envelope\u003e"
+                                              },
+                                     "url":  {
+                                                 "raw":  "{{baseUrl}}/ws",
+                                                 "host":  [
+                                                              "{{baseUrl}}"
+                                                          ],
+                                                 "path":  [
+                                                              "ws"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ],
+                     "createdAt":  "2026-06-02T10:24:28.000Z",
+                     "updatedAt":  "2026-06-02T10:24:28.000Z",
+                     "uid":  "19470254-876dd064-a6c7-4199-8bc3-ee59250d60c2"
+                 },
+                 {
+                     "name":  "get-reservation-not-found",
+                     "event":  [
+                                   {
+                                       "listen":  "test",
+                                       "script":  {
+                                                      "type":  "text/javascript",
+                                                      "exec":  [
+                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
+                                                                   "    pm.response.to.have.status(500);",
+                                                                   "});",
+                                                                   "",
+                                                                   "pm.test(\"returns reservation not found fault\", function () {",
+                                                                   "    const body = pm.response.text();",
+                                                                   "    pm.expect(body).to.include(\"\u003cSOAP-ENV:Fault\u003e\");",
+                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
+                                                                   "    pm.expect(body).to.include(\"Reservation not found\");",
+                                                                   "    pm.expect(body).to.include(\"reservationNotFoundFault\");",
+                                                                   "    pm.expect(body).to.include(\"resourceId\");",
+                                                                   "});"
+                                                               ]
+                                                  }
+                                   }
+                               ],
+                     "id":  "bf601bc0-0151-417d-8be4-0b6a61c02bf2",
+                     "protocolProfileBehavior":  {
+                                                     "disableBodyPruning":  true
+                                                 },
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "text/xml; charset=utf-8"
+                                                    },
+                                                    {
+                                                        "key":  "Accept",
+                                                        "value":  "text/xml"
+                                                    }
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "\u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e\n\u003csoapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\"\u003e\n   \u003csoapenv:Header/\u003e\n   \u003csoapenv:Body\u003e\n      \u003cres:getReservationRequest\u003e\n         \u003cres:reservationId\u003e{{missingReservationId}}\u003c/res:reservationId\u003e\n      \u003c/res:getReservationRequest\u003e\n   \u003c/soapenv:Body\u003e\n\u003c/soapenv:Envelope\u003e"
+                                              },
+                                     "url":  {
+                                                 "raw":  "{{baseUrl}}/ws",
+                                                 "host":  [
+                                                              "{{baseUrl}}"
+                                                          ],
+                                                 "path":  [
+                                                              "ws"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ],
+                     "createdAt":  "2026-06-02T10:24:28.000Z",
+                     "updatedAt":  "2026-06-02T10:24:28.000Z",
+                     "uid":  "19470254-bf601bc0-0151-417d-8be4-0b6a61c02bf2"
+                 },
+                 {
+                     "name":  "list-reservations-success",
+                     "event":  [
+                                   {
+                                       "listen":  "test",
+                                       "script":  {
+                                                      "type":  "text/javascript",
+                                                      "exec":  [
+                                                                   "pm.test(\"returns HTTP 200\", function () {",
+                                                                   "    pm.response.to.have.status(200);",
+                                                                   "});",
+                                                                   "",
+                                                                   "pm.test(\"returns seeded reservations\", function () {",
+                                                                   "    const body = pm.response.text();",
+                                                                   "    pm.expect(body).to.include(pm.collectionVariables.get(\"existingReservationId\"));",
+                                                                   "    pm.expect(body).to.include(pm.collectionVariables.get(\"bookedEquipmentId\"));",
+                                                                   "    pm.expect(body).to.include(\"Projector A\");",
+                                                                   "    pm.expect(body).to.not.include(\"\u003cSOAP-ENV:Fault\u003e\");",
+                                                                   "});"
+                                                               ]
+                                                  }
+                                   }
+                               ],
+                     "id":  "75689264-773d-415b-92b5-bac3cbf0cae2",
+                     "protocolProfileBehavior":  {
+                                                     "disableBodyPruning":  true
+                                                 },
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "text/xml; charset=utf-8"
+                                                    },
+                                                    {
+                                                        "key":  "Accept",
+                                                        "value":  "text/xml"
+                                                    }
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "\u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e\n\u003csoapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\"\u003e\n   \u003csoapenv:Header/\u003e\n   \u003csoapenv:Body\u003e\n      \u003cres:listReservationsRequest/\u003e\n   \u003c/soapenv:Body\u003e\n\u003c/soapenv:Envelope\u003e"
+                                              },
+                                     "url":  {
+                                                 "raw":  "{{baseUrl}}/ws",
+                                                 "host":  [
+                                                              "{{baseUrl}}"
+                                                          ],
+                                                 "path":  [
+                                                              "ws"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ],
+                     "createdAt":  "2026-06-02T10:24:28.000Z",
+                     "updatedAt":  "2026-06-02T10:24:28.000Z",
+                     "uid":  "19470254-75689264-773d-415b-92b5-bac3cbf0cae2"
+                 },
+                 {
+                     "name":  "delete-reservation-success",
+                     "event":  [
+                                   {
+                                       "listen":  "test",
+                                       "script":  {
+                                                      "type":  "text/javascript",
+                                                      "exec":  [
+                                                                   "pm.test(\"returns HTTP 200\", function () {",
+                                                                   "    pm.response.to.have.status(200);",
+                                                                   "});",
+                                                                   "",
+                                                                   "pm.test(\"returns deleted reservation id\", function () {",
+                                                                   "    const body = pm.response.text();",
+                                                                   "    pm.expect(body).to.include(pm.collectionVariables.get(\"deleteReservationId\"));",
+                                                                   "    pm.expect(body).to.not.include(\"\u003cSOAP-ENV:Fault\u003e\");",
+                                                                   "});"
+                                                               ]
+                                                  }
+                                   }
+                               ],
+                     "id":  "83f4b606-cefd-43a5-addd-6efc7076ec84",
+                     "protocolProfileBehavior":  {
+                                                     "disableBodyPruning":  true
+                                                 },
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "text/xml; charset=utf-8"
+                                                    },
+                                                    {
+                                                        "key":  "Accept",
+                                                        "value":  "text/xml"
+                                                    }
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "\u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e\n\u003csoapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\"\u003e\n   \u003csoapenv:Header/\u003e\n   \u003csoapenv:Body\u003e\n      \u003cres:deleteReservationRequest\u003e\n         \u003cres:reservationId\u003e{{deleteReservationId}}\u003c/res:reservationId\u003e\n      \u003c/res:deleteReservationRequest\u003e\n   \u003c/soapenv:Body\u003e\n\u003c/soapenv:Envelope\u003e"
+                                              },
+                                     "url":  {
+                                                 "raw":  "{{baseUrl}}/ws",
+                                                 "host":  [
+                                                              "{{baseUrl}}"
+                                                          ],
+                                                 "path":  [
+                                                              "ws"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ],
+                     "createdAt":  "2026-06-02T10:24:28.000Z",
+                     "updatedAt":  "2026-06-02T10:24:28.000Z",
+                     "uid":  "19470254-83f4b606-cefd-43a5-addd-6efc7076ec84"
+                 },
+                 {
+                     "name":  "delete-reservation-not-found",
+                     "event":  [
+                                   {
+                                       "listen":  "test",
+                                       "script":  {
+                                                      "type":  "text/javascript",
+                                                      "exec":  [
+                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
+                                                                   "    pm.response.to.have.status(500);",
+                                                                   "});",
+                                                                   "",
+                                                                   "pm.test(\"returns reservation not found fault\", function () {",
+                                                                   "    const body = pm.response.text();",
+                                                                   "    pm.expect(body).to.include(\"\u003cSOAP-ENV:Fault\u003e\");",
+                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
+                                                                   "    pm.expect(body).to.include(\"Reservation not found\");",
+                                                                   "    pm.expect(body).to.include(\"reservationNotFoundFault\");",
+                                                                   "    pm.expect(body).to.include(\"resourceId\");",
+                                                                   "});"
+                                                               ]
+                                                  }
+                                   }
+                               ],
+                     "id":  "ff5ad7ba-bec8-444d-a331-6268143fcd89",
+                     "protocolProfileBehavior":  {
+                                                     "disableBodyPruning":  true
+                                                 },
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "text/xml; charset=utf-8"
+                                                    },
+                                                    {
+                                                        "key":  "Accept",
+                                                        "value":  "text/xml"
+                                                    }
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "\u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e\n\u003csoapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\"\u003e\n   \u003csoapenv:Header/\u003e\n   \u003csoapenv:Body\u003e\n      \u003cres:deleteReservationRequest\u003e\n         \u003cres:reservationId\u003e{{missingReservationId}}\u003c/res:reservationId\u003e\n      \u003c/res:deleteReservationRequest\u003e\n   \u003c/soapenv:Body\u003e\n\u003c/soapenv:Envelope\u003e"
+                                              },
+                                     "url":  {
+                                                 "raw":  "{{baseUrl}}/ws",
+                                                 "host":  [
+                                                              "{{baseUrl}}"
+                                                          ],
+                                                 "path":  [
+                                                              "ws"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ],
+                     "createdAt":  "2026-06-02T10:24:28.000Z",
+                     "updatedAt":  "2026-06-02T10:24:28.000Z",
+                     "uid":  "19470254-ff5ad7ba-bec8-444d-a331-6268143fcd89"
+                 },
+                 {
+                     "name":  "create-reservation-missing-equipment-id",
+                     "event":  [
+                                   {
+                                       "listen":  "test",
+                                       "script":  {
+                                                      "type":  "text/javascript",
+                                                      "exec":  [
+                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
+                                                                   "    pm.response.to.have.status(500);",
+                                                                   "});",
+                                                                   "",
+                                                                   "pm.test(\"returns missing equipment id fault\", function () {",
+                                                                   "    const body = pm.response.text();",
+                                                                   "    pm.expect(body).to.include(\"\u003cSOAP-ENV:Fault\u003e\");",
+                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
+                                                                   "    pm.expect(body).to.include(\"equipmentId is required\");",
+                                                                   "    pm.expect(body).to.include(\"invalidRequestFault\");",
+                                                                   "});"
+                                                               ]
+                                                  }
+                                   }
+                               ],
+                     "id":  "4c77e670-2d3b-4fe1-b3ef-eaf134ba8360",
+                     "protocolProfileBehavior":  {
+                                                     "disableBodyPruning":  true
+                                                 },
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "text/xml; charset=utf-8"
+                                                    },
+                                                    {
+                                                        "key":  "Accept",
+                                                        "value":  "text/xml"
+                                                    }
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "\u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e\n\u003csoapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\"\u003e\n   \u003csoapenv:Header/\u003e\n   \u003csoapenv:Body\u003e\n      \u003cres:createReservationRequest\u003e\n         \u003cres:startTime\u003e{{validStartTime}}\u003c/res:startTime\u003e\n         \u003cres:endTime\u003e{{validEndTime}}\u003c/res:endTime\u003e\n      \u003c/res:createReservationRequest\u003e\n   \u003c/soapenv:Body\u003e\n\u003c/soapenv:Envelope\u003e"
+                                              },
+                                     "url":  {
+                                                 "raw":  "{{baseUrl}}/ws",
+                                                 "host":  [
+                                                              "{{baseUrl}}"
+                                                          ],
+                                                 "path":  [
+                                                              "ws"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ],
+                     "createdAt":  "2026-06-02T10:24:28.000Z",
+                     "updatedAt":  "2026-06-02T10:24:28.000Z",
+                     "uid":  "19470254-4c77e670-2d3b-4fe1-b3ef-eaf134ba8360"
+                 },
+                 {
+                     "name":  "create-reservation-missing-end-time",
+                     "event":  [
+                                   {
+                                       "listen":  "test",
+                                       "script":  {
+                                                      "type":  "text/javascript",
+                                                      "exec":  [
+                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
+                                                                   "    pm.response.to.have.status(500);",
+                                                                   "});",
+                                                                   "",
+                                                                   "pm.test(\"returns missing end time fault\", function () {",
+                                                                   "    const body = pm.response.text();",
+                                                                   "    pm.expect(body).to.include(\"\u003cSOAP-ENV:Fault\u003e\");",
+                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
+                                                                   "    pm.expect(body).to.include(\"endTime is required\");",
+                                                                   "    pm.expect(body).to.include(\"invalidRequestFault\");",
+                                                                   "});"
+                                                               ]
+                                                  }
+                                   }
+                               ],
+                     "id":  "1c306f67-667e-40af-8652-d939d1d1a19e",
+                     "protocolProfileBehavior":  {
+                                                     "disableBodyPruning":  true
+                                                 },
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "text/xml; charset=utf-8"
+                                                    },
+                                                    {
+                                                        "key":  "Accept",
+                                                        "value":  "text/xml"
+                                                    }
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "\u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e\n\u003csoapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\"\u003e\n   \u003csoapenv:Header/\u003e\n   \u003csoapenv:Body\u003e\n      \u003cres:createReservationRequest\u003e\n         \u003cres:equipmentId\u003e{{availableEquipmentId}}\u003c/res:equipmentId\u003e\n         \u003cres:startTime\u003e{{validStartTime}}\u003c/res:startTime\u003e\n      \u003c/res:createReservationRequest\u003e\n   \u003c/soapenv:Body\u003e\n\u003c/soapenv:Envelope\u003e"
+                                              },
+                                     "url":  {
+                                                 "raw":  "{{baseUrl}}/ws",
+                                                 "host":  [
+                                                              "{{baseUrl}}"
+                                                          ],
+                                                 "path":  [
+                                                              "ws"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ],
+                     "createdAt":  "2026-06-02T10:24:28.000Z",
+                     "updatedAt":  "2026-06-02T10:24:28.000Z",
+                     "uid":  "19470254-1c306f67-667e-40af-8652-d939d1d1a19e"
+                 },
+                 {
+                     "name":  "get-reservation-invalid-id",
+                     "event":  [
+                                   {
+                                       "listen":  "test",
+                                       "script":  {
+                                                      "type":  "text/javascript",
+                                                      "exec":  [
+                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
+                                                                   "    pm.response.to.have.status(500);",
+                                                                   "});",
+                                                                   "",
+                                                                   "pm.test(\"returns invalid reservation id fault\", function () {",
+                                                                   "    const body = pm.response.text();",
+                                                                   "    pm.expect(body).to.include(\"\u003cSOAP-ENV:Fault\u003e\");",
+                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
+                                                                   "    pm.expect(body).to.include(\"reservationId must be a valid UUID\");",
+                                                                   "    pm.expect(body).to.include(\"invalidUuidFault\");",
+                                                                   "});"
+                                                               ]
+                                                  }
+                                   }
+                               ],
+                     "id":  "651c5512-b7fb-457d-8a94-6a4430c6364b",
+                     "protocolProfileBehavior":  {
+                                                     "disableBodyPruning":  true
+                                                 },
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "text/xml; charset=utf-8"
+                                                    },
+                                                    {
+                                                        "key":  "Accept",
+                                                        "value":  "text/xml"
+                                                    }
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "\u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e\n\u003csoapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\"\u003e\n   \u003csoapenv:Header/\u003e\n   \u003csoapenv:Body\u003e\n      \u003cres:getReservationRequest\u003e\n         \u003cres:reservationId\u003enot-a-uuid\u003c/res:reservationId\u003e\n      \u003c/res:getReservationRequest\u003e\n   \u003c/soapenv:Body\u003e\n\u003c/soapenv:Envelope\u003e"
+                                              },
+                                     "url":  {
+                                                 "raw":  "{{baseUrl}}/ws",
+                                                 "host":  [
+                                                              "{{baseUrl}}"
+                                                          ],
+                                                 "path":  [
+                                                              "ws"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ],
+                     "createdAt":  "2026-06-02T10:24:28.000Z",
+                     "updatedAt":  "2026-06-02T10:24:28.000Z",
+                     "uid":  "19470254-651c5512-b7fb-457d-8a94-6a4430c6364b"
+                 },
+                 {
+                     "name":  "get-reservation-missing-id",
+                     "event":  [
+                                   {
+                                       "listen":  "test",
+                                       "script":  {
+                                                      "type":  "text/javascript",
+                                                      "exec":  [
+                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
+                                                                   "    pm.response.to.have.status(500);",
+                                                                   "});",
+                                                                   "",
+                                                                   "pm.test(\"returns missing reservation id fault\", function () {",
+                                                                   "    const body = pm.response.text();",
+                                                                   "    pm.expect(body).to.include(\"\u003cSOAP-ENV:Fault\u003e\");",
+                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
+                                                                   "    pm.expect(body).to.include(\"reservationId is required\");",
+                                                                   "    pm.expect(body).to.include(\"invalidRequestFault\");",
+                                                                   "});"
+                                                               ]
+                                                  }
+                                   }
+                               ],
+                     "id":  "9891d141-51f6-4fa2-b2f4-401fcd6a9d8e",
+                     "protocolProfileBehavior":  {
+                                                     "disableBodyPruning":  true
+                                                 },
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "text/xml; charset=utf-8"
+                                                    },
+                                                    {
+                                                        "key":  "Accept",
+                                                        "value":  "text/xml"
+                                                    }
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "\u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e\n\u003csoapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\"\u003e\n   \u003csoapenv:Header/\u003e\n   \u003csoapenv:Body\u003e\n      \u003cres:getReservationRequest/\u003e\n   \u003c/soapenv:Body\u003e\n\u003c/soapenv:Envelope\u003e"
+                                              },
+                                     "url":  {
+                                                 "raw":  "{{baseUrl}}/ws",
+                                                 "host":  [
+                                                              "{{baseUrl}}"
+                                                          ],
+                                                 "path":  [
+                                                              "ws"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ],
+                     "createdAt":  "2026-06-02T10:24:28.000Z",
+                     "updatedAt":  "2026-06-02T10:24:28.000Z",
+                     "uid":  "19470254-9891d141-51f6-4fa2-b2f4-401fcd6a9d8e"
+                 },
+                 {
+                     "name":  "delete-reservation-invalid-id",
+                     "event":  [
+                                   {
+                                       "listen":  "test",
+                                       "script":  {
+                                                      "type":  "text/javascript",
+                                                      "exec":  [
+                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
+                                                                   "    pm.response.to.have.status(500);",
+                                                                   "});",
+                                                                   "",
+                                                                   "pm.test(\"returns invalid reservation id fault\", function () {",
+                                                                   "    const body = pm.response.text();",
+                                                                   "    pm.expect(body).to.include(\"\u003cSOAP-ENV:Fault\u003e\");",
+                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
+                                                                   "    pm.expect(body).to.include(\"reservationId must be a valid UUID\");",
+                                                                   "    pm.expect(body).to.include(\"invalidUuidFault\");",
+                                                                   "});"
+                                                               ]
+                                                  }
+                                   }
+                               ],
+                     "id":  "d2869c3d-59e4-4d2a-bc95-b547668c1aa7",
+                     "protocolProfileBehavior":  {
+                                                     "disableBodyPruning":  true
+                                                 },
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "text/xml; charset=utf-8"
+                                                    },
+                                                    {
+                                                        "key":  "Accept",
+                                                        "value":  "text/xml"
+                                                    }
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "\u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e\n\u003csoapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\"\u003e\n   \u003csoapenv:Header/\u003e\n   \u003csoapenv:Body\u003e\n      \u003cres:deleteReservationRequest\u003e\n         \u003cres:reservationId\u003enot-a-uuid\u003c/res:reservationId\u003e\n      \u003c/res:deleteReservationRequest\u003e\n   \u003c/soapenv:Body\u003e\n\u003c/soapenv:Envelope\u003e"
+                                              },
+                                     "url":  {
+                                                 "raw":  "{{baseUrl}}/ws",
+                                                 "host":  [
+                                                              "{{baseUrl}}"
+                                                          ],
+                                                 "path":  [
+                                                              "ws"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ],
+                     "createdAt":  "2026-06-02T10:24:28.000Z",
+                     "updatedAt":  "2026-06-02T10:24:28.000Z",
+                     "uid":  "19470254-d2869c3d-59e4-4d2a-bc95-b547668c1aa7"
+                 },
+                 {
+                     "name":  "delete-reservation-missing-id",
+                     "event":  [
+                                   {
+                                       "listen":  "test",
+                                       "script":  {
+                                                      "type":  "text/javascript",
+                                                      "exec":  [
+                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
+                                                                   "    pm.response.to.have.status(500);",
+                                                                   "});",
+                                                                   "",
+                                                                   "pm.test(\"returns missing reservation id fault\", function () {",
+                                                                   "    const body = pm.response.text();",
+                                                                   "    pm.expect(body).to.include(\"\u003cSOAP-ENV:Fault\u003e\");",
+                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
+                                                                   "    pm.expect(body).to.include(\"reservationId is required\");",
+                                                                   "    pm.expect(body).to.include(\"invalidRequestFault\");",
+                                                                   "});"
+                                                               ]
+                                                  }
+                                   }
+                               ],
+                     "id":  "d67668bd-db73-4de8-a751-505862faeeb6",
+                     "protocolProfileBehavior":  {
+                                                     "disableBodyPruning":  true
+                                                 },
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "text/xml; charset=utf-8"
+                                                    },
+                                                    {
+                                                        "key":  "Accept",
+                                                        "value":  "text/xml"
+                                                    }
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "\u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e\n\u003csoapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\"\u003e\n   \u003csoapenv:Header/\u003e\n   \u003csoapenv:Body\u003e\n      \u003cres:deleteReservationRequest/\u003e\n   \u003c/soapenv:Body\u003e\n\u003c/soapenv:Envelope\u003e"
+                                              },
+                                     "url":  {
+                                                 "raw":  "{{baseUrl}}/ws",
+                                                 "host":  [
+                                                              "{{baseUrl}}"
+                                                          ],
+                                                 "path":  [
+                                                              "ws"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ],
+                     "createdAt":  "2026-06-02T10:24:28.000Z",
+                     "updatedAt":  "2026-06-02T10:24:28.000Z",
+                     "uid":  "19470254-d67668bd-db73-4de8-a751-505862faeeb6"
+                 },
+                 {
+                     "name":  "create-reservation-retired-equipment",
+                     "event":  [
+                                   {
+                                       "listen":  "test",
+                                       "script":  {
+                                                      "type":  "text/javascript",
+                                                      "exec":  [
+                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
+                                                                   "    pm.response.to.have.status(500);",
+                                                                   "});",
+                                                                   "",
+                                                                   "pm.test(\"returns retired equipment unavailable fault\", function () {",
+                                                                   "    const body = pm.response.text();",
+                                                                   "    pm.expect(body).to.include(\"\u003cSOAP-ENV:Fault\u003e\");",
+                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
+                                                                   "    pm.expect(body).to.include(\"is not active and can not be reserved\");",
+                                                                   "    pm.expect(body).to.include(\"equipmentUnavailableFault\");",
+                                                                   "    pm.expect(body).to.include(\"resourceId\");",
+                                                                   "});"
+                                                               ]
+                                                  }
+                                   }
+                               ],
+                     "id":  "add44922-b977-482d-a851-481dd7432ca0",
+                     "protocolProfileBehavior":  {
+                                                     "disableBodyPruning":  true
+                                                 },
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "text/xml; charset=utf-8"
+                                                    },
+                                                    {
+                                                        "key":  "Accept",
+                                                        "value":  "text/xml"
+                                                    }
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "\u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e\n\u003csoapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\"\u003e\n   \u003csoapenv:Header/\u003e\n   \u003csoapenv:Body\u003e\n      \u003cres:createReservationRequest\u003e\n         \u003cres:equipmentId\u003e{{retiredEquipmentId}}\u003c/res:equipmentId\u003e\n         \u003cres:startTime\u003e{{validStartTime}}\u003c/res:startTime\u003e\n         \u003cres:endTime\u003e{{validEndTime}}\u003c/res:endTime\u003e\n      \u003c/res:createReservationRequest\u003e\n   \u003c/soapenv:Body\u003e\n\u003c/soapenv:Envelope\u003e"
+                                              },
+                                     "url":  {
+                                                 "raw":  "{{baseUrl}}/ws",
+                                                 "host":  [
+                                                              "{{baseUrl}}"
+                                                          ],
+                                                 "path":  [
+                                                              "ws"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ],
+                     "createdAt":  "2026-06-02T10:24:28.000Z",
+                     "updatedAt":  "2026-06-02T10:24:28.000Z",
+                     "uid":  "19470254-add44922-b977-482d-a851-481dd7432ca0"
+                 },
+                 {
+                     "name":  "create-reservation-boundary-no-conflict-before",
+                     "event":  [
+                                   {
+                                       "listen":  "test",
+                                       "script":  {
+                                                      "type":  "text/javascript",
+                                                      "exec":  [
+                                                                   "pm.test(\"returns HTTP 200\", function () {",
+                                                                   "    pm.response.to.have.status(200);",
+                                                                   "});",
+                                                                   "",
+                                                                   "pm.test(\"allows reservation ending when seeded reservation starts\", function () {",
+                                                                   "    const body = pm.response.text();",
+                                                                   "    pm.expect(body).to.match(/\u003c[^\u003e]*:?reservationId\u003e/);",
+                                                                   "    pm.expect(body).to.include(pm.collectionVariables.get(\"bookedEquipmentId\"));",
+                                                                   "    pm.expect(body).to.include(\"2026-06-01T07:00:00\");",
+                                                                   "    pm.expect(body).to.include(\"2026-06-01T09:00:00\");",
+                                                                   "    pm.expect(body).to.not.include(\"\u003cSOAP-ENV:Fault\u003e\");",
+                                                                   "});"
+                                                               ]
+                                                  }
+                                   }
+                               ],
+                     "id":  "ee982e2c-48cc-4a21-9804-c85fb64aaf23",
+                     "protocolProfileBehavior":  {
+                                                     "disableBodyPruning":  true
+                                                 },
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "text/xml; charset=utf-8"
+                                                    },
+                                                    {
+                                                        "key":  "Accept",
+                                                        "value":  "text/xml"
+                                                    }
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "\u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e\n\u003csoapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\"\u003e\n   \u003csoapenv:Header/\u003e\n   \u003csoapenv:Body\u003e\n      \u003cres:createReservationRequest\u003e\n         \u003cres:equipmentId\u003e{{bookedEquipmentId}}\u003c/res:equipmentId\u003e\n         \u003cres:startTime\u003e{{boundaryBeforeStartTime}}\u003c/res:startTime\u003e\n         \u003cres:endTime\u003e{{boundaryBeforeEndTime}}\u003c/res:endTime\u003e\n      \u003c/res:createReservationRequest\u003e\n   \u003c/soapenv:Body\u003e\n\u003c/soapenv:Envelope\u003e"
+                                              },
+                                     "url":  {
+                                                 "raw":  "{{baseUrl}}/ws",
+                                                 "host":  [
+                                                              "{{baseUrl}}"
+                                                          ],
+                                                 "path":  [
+                                                              "ws"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ],
+                     "createdAt":  "2026-06-02T10:24:28.000Z",
+                     "updatedAt":  "2026-06-02T10:24:28.000Z",
+                     "uid":  "19470254-ee982e2c-48cc-4a21-9804-c85fb64aaf23"
+                 },
+                 {
+                     "name":  "create-reservation-boundary-no-conflict-after",
+                     "event":  [
+                                   {
+                                       "listen":  "test",
+                                       "script":  {
+                                                      "type":  "text/javascript",
+                                                      "exec":  [
+                                                                   "pm.test(\"returns HTTP 200\", function () {",
+                                                                   "    pm.response.to.have.status(200);",
+                                                                   "});",
+                                                                   "",
+                                                                   "pm.test(\"allows reservation starting when seeded reservation ends\", function () {",
+                                                                   "    const body = pm.response.text();",
+                                                                   "    pm.expect(body).to.match(/\u003c[^\u003e]*:?reservationId\u003e/);",
+                                                                   "    pm.expect(body).to.include(pm.collectionVariables.get(\"bookedEquipmentId\"));",
+                                                                   "    pm.expect(body).to.include(\"2026-06-01T11:00:00\");",
+                                                                   "    pm.expect(body).to.include(\"2026-06-01T12:00:00\");",
+                                                                   "    pm.expect(body).to.not.include(\"\u003cSOAP-ENV:Fault\u003e\");",
+                                                                   "});"
+                                                               ]
+                                                  }
+                                   }
+                               ],
+                     "id":  "0b75038d-ae91-48b9-bd86-129305cbbf27",
+                     "protocolProfileBehavior":  {
+                                                     "disableBodyPruning":  true
+                                                 },
+                     "request":  {
+                                     "method":  "POST",
+                                     "header":  [
+                                                    {
+                                                        "key":  "Content-Type",
+                                                        "value":  "text/xml; charset=utf-8"
+                                                    },
+                                                    {
+                                                        "key":  "Accept",
+                                                        "value":  "text/xml"
+                                                    }
+                                                ],
+                                     "body":  {
+                                                  "mode":  "raw",
+                                                  "raw":  "\u003c?xml version=\"1.0\" encoding=\"UTF-8\"?\u003e\n\u003csoapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\"\u003e\n   \u003csoapenv:Header/\u003e\n   \u003csoapenv:Body\u003e\n      \u003cres:createReservationRequest\u003e\n         \u003cres:equipmentId\u003e{{bookedEquipmentId}}\u003c/res:equipmentId\u003e\n         \u003cres:startTime\u003e{{boundaryAfterStartTime}}\u003c/res:startTime\u003e\n         \u003cres:endTime\u003e{{boundaryAfterEndTime}}\u003c/res:endTime\u003e\n      \u003c/res:createReservationRequest\u003e\n   \u003c/soapenv:Body\u003e\n\u003c/soapenv:Envelope\u003e"
+                                              },
+                                     "url":  {
+                                                 "raw":  "{{baseUrl}}/ws",
+                                                 "host":  [
+                                                              "{{baseUrl}}"
+                                                          ],
+                                                 "path":  [
+                                                              "ws"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ],
+                     "createdAt":  "2026-06-02T10:24:28.000Z",
+                     "updatedAt":  "2026-06-02T10:24:28.000Z",
+                     "uid":  "19470254-0b75038d-ae91-48b9-bd86-129305cbbf27"
+                 },
+                 {
+                     "name":  "wsdl-available",
+                     "event":  [
+                                   {
+                                       "listen":  "test",
+                                       "script":  {
+                                                      "type":  "text/javascript",
+                                                      "exec":  [
+                                                                   "pm.test(\"returns HTTP 200\", function () {",
+                                                                   "    pm.response.to.have.status(200);",
+                                                                   "});",
+                                                                   "",
+                                                                   "pm.test(\"returns WSDL contract\", function () {",
+                                                                   "    const body = pm.response.text();",
+                                                                   "    pm.expect(body).to.include(\"wsdl:definitions\");",
+                                                                   "    pm.expect(body).to.include(\"createReservationRequest\");",
+                                                                   "    pm.expect(body).to.include(\"getReservationRequest\");",
+                                                                   "    pm.expect(body).to.include(\"listReservationsRequest\");",
+                                                                   "    pm.expect(body).to.include(\"deleteReservationRequest\");",
+                                                                   "});"
+                                                               ]
+                                                  }
+                                   }
+                               ],
+                     "id":  "689d1542-41b0-47ee-aa2f-2221a1a69474",
+                     "protocolProfileBehavior":  {
+                                                     "disableBodyPruning":  true
+                                                 },
+                     "request":  {
+                                     "method":  "GET",
+                                     "header":  [
+
+                                                ],
+                                     "url":  {
+                                                 "raw":  "{{baseUrl}}/ws/equipment-reservation-soap-api.wsdl",
+                                                 "host":  [
+                                                              "{{baseUrl}}"
+                                                          ],
+                                                 "path":  [
+                                                              "ws",
+                                                              "equipment-reservation-soap-api.wsdl"
+                                                          ]
+                                             }
+                                 },
+                     "response":  [
+
+                                  ],
+                     "createdAt":  "2026-06-02T10:24:28.000Z",
+                     "updatedAt":  "2026-06-02T10:24:28.000Z",
+                     "uid":  "19470254-689d1542-41b0-47ee-aa2f-2221a1a69474"
+                 }
+             ],
     "variable":  [
                      {
                          "key":  "baseUrl",
@@ -80,1153 +1401,5 @@
                          "key":  "boundaryAfterEndTime",
                          "value":  "2026-06-01T12:00:00Z"
                      }
-                 ],
-    "item":  [
-                 {
-                     "name":  "create-reservation-success",
-                     "event":  [
-                                   {
-                                       "listen":  "test",
-                                       "script":  {
-                                                      "exec":  [
-                                                                   "pm.test(\"returns HTTP 200\", function () {",
-                                                                   "    pm.response.to.have.status(200);",
-                                                                   "});",
-                                                                   "",
-                                                                   "pm.test(\"returns reservation data\", function () {",
-                                                                   "    const body = pm.response.text();",
-                                                                   "    pm.expect(body).to.match(/<[^>]*:?reservationId>/);",
-                                                                   "    pm.expect(body).to.include(pm.collectionVariables.get(\"availableEquipmentId\"));",
-                                                                   "    pm.expect(body).to.include(\"2026-06-10T09:00:00\");",
-                                                                   "    pm.expect(body).to.include(\"2026-06-10T11:00:00\");",
-                                                                   "    pm.expect(body).to.not.include(\"<SOAP-ENV:Fault>\");",
-                                                                   "});"
-                                                               ],
-                                                      "type":  "text/javascript"
-                                                  }
-                                   }
-                               ],
-                     "request":  {
-                                     "method":  "POST",
-                                     "header":  [
-                                                    {
-                                                        "key":  "Content-Type",
-                                                        "value":  "text/xml; charset=utf-8"
-                                                    },
-                                                    {
-                                                        "key":  "Accept",
-                                                        "value":  "text/xml"
-                                                    }
-                                                ],
-                                     "url":  {
-                                                 "raw":  "{{baseUrl}}/ws",
-                                                 "host":  [
-                                                              "{{baseUrl}}"
-                                                          ],
-                                                 "path":  [
-                                                              "ws"
-                                                          ]
-                                             },
-                                     "body":  {
-                                                  "mode":  "raw",
-                                                  "raw":  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <res:createReservationRequest>\n         <res:equipmentId>{{availableEquipmentId}}</res:equipmentId>\n         <res:startTime>{{validStartTime}}</res:startTime>\n         <res:endTime>{{validEndTime}}</res:endTime>\n      </res:createReservationRequest>\n   </soapenv:Body>\n</soapenv:Envelope>"
-                                              }
-                                 },
-                     "response":  [
-
-                                  ]
-                 },
-                 {
-                     "name":  "create-reservation-invalid-equipment-id",
-                     "event":  [
-                                   {
-                                       "listen":  "test",
-                                       "script":  {
-                                                      "exec":  [
-                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
-                                                                   "    pm.response.to.have.status(500);",
-                                                                   "});",
-                                                                   "",
-                                                                   "pm.test(\"returns invalid equipment id fault\", function () {",
-                                                                   "    const body = pm.response.text();",
-                                                                   "    pm.expect(body).to.include(\"<SOAP-ENV:Fault>\");",
-                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
-                                                                   "    pm.expect(body).to.include(\"equipmentId must be a valid UUID\");",
-                                                                   "});"
-                                                               ],
-                                                      "type":  "text/javascript"
-                                                  }
-                                   }
-                               ],
-                     "request":  {
-                                     "method":  "POST",
-                                     "header":  [
-                                                    {
-                                                        "key":  "Content-Type",
-                                                        "value":  "text/xml; charset=utf-8"
-                                                    },
-                                                    {
-                                                        "key":  "Accept",
-                                                        "value":  "text/xml"
-                                                    }
-                                                ],
-                                     "url":  {
-                                                 "raw":  "{{baseUrl}}/ws",
-                                                 "host":  [
-                                                              "{{baseUrl}}"
-                                                          ],
-                                                 "path":  [
-                                                              "ws"
-                                                          ]
-                                             },
-                                     "body":  {
-                                                  "mode":  "raw",
-                                                  "raw":  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <res:createReservationRequest>\n         <res:equipmentId>not-a-uuid</res:equipmentId>\n         <res:startTime>{{validStartTime}}</res:startTime>\n         <res:endTime>{{validEndTime}}</res:endTime>\n      </res:createReservationRequest>\n   </soapenv:Body>\n</soapenv:Envelope>"
-                                              }
-                                 },
-                     "response":  [
-
-                                  ]
-                 },
-                 {
-                     "name":  "create-reservation-missing-start-time",
-                     "event":  [
-                                   {
-                                       "listen":  "test",
-                                       "script":  {
-                                                      "exec":  [
-                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
-                                                                   "    pm.response.to.have.status(500);",
-                                                                   "});",
-                                                                   "",
-                                                                   "pm.test(\"returns missing start time fault\", function () {",
-                                                                   "    const body = pm.response.text();",
-                                                                   "    pm.expect(body).to.include(\"<SOAP-ENV:Fault>\");",
-                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
-                                                                   "    pm.expect(body).to.include(\"startTime is required\");",
-                                                                   "});"
-                                                               ],
-                                                      "type":  "text/javascript"
-                                                  }
-                                   }
-                               ],
-                     "request":  {
-                                     "method":  "POST",
-                                     "header":  [
-                                                    {
-                                                        "key":  "Content-Type",
-                                                        "value":  "text/xml; charset=utf-8"
-                                                    },
-                                                    {
-                                                        "key":  "Accept",
-                                                        "value":  "text/xml"
-                                                    }
-                                                ],
-                                     "url":  {
-                                                 "raw":  "{{baseUrl}}/ws",
-                                                 "host":  [
-                                                              "{{baseUrl}}"
-                                                          ],
-                                                 "path":  [
-                                                              "ws"
-                                                          ]
-                                             },
-                                     "body":  {
-                                                  "mode":  "raw",
-                                                  "raw":  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <res:createReservationRequest>\n         <res:equipmentId>{{availableEquipmentId}}</res:equipmentId>\n         <res:endTime>{{validEndTime}}</res:endTime>\n      </res:createReservationRequest>\n   </soapenv:Body>\n</soapenv:Envelope>"
-                                              }
-                                 },
-                     "response":  [
-
-                                  ]
-                 },
-                 {
-                     "name":  "create-reservation-equipment-not-found",
-                     "event":  [
-                                   {
-                                       "listen":  "test",
-                                       "script":  {
-                                                      "exec":  [
-                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
-                                                                   "    pm.response.to.have.status(500);",
-                                                                   "});",
-                                                                   "",
-                                                                   "pm.test(\"returns equipment not found fault\", function () {",
-                                                                   "    const body = pm.response.text();",
-                                                                   "    pm.expect(body).to.include(\"<SOAP-ENV:Fault>\");",
-                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
-                                                                   "    pm.expect(body).to.include(\"Equipment not found\");",
-                                                                   "});"
-                                                               ],
-                                                      "type":  "text/javascript"
-                                                  }
-                                   }
-                               ],
-                     "request":  {
-                                     "method":  "POST",
-                                     "header":  [
-                                                    {
-                                                        "key":  "Content-Type",
-                                                        "value":  "text/xml; charset=utf-8"
-                                                    },
-                                                    {
-                                                        "key":  "Accept",
-                                                        "value":  "text/xml"
-                                                    }
-                                                ],
-                                     "url":  {
-                                                 "raw":  "{{baseUrl}}/ws",
-                                                 "host":  [
-                                                              "{{baseUrl}}"
-                                                          ],
-                                                 "path":  [
-                                                              "ws"
-                                                          ]
-                                             },
-                                     "body":  {
-                                                  "mode":  "raw",
-                                                  "raw":  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <res:createReservationRequest>\n         <res:equipmentId>{{missingEquipmentId}}</res:equipmentId>\n         <res:startTime>{{validStartTime}}</res:startTime>\n         <res:endTime>{{validEndTime}}</res:endTime>\n      </res:createReservationRequest>\n   </soapenv:Body>\n</soapenv:Envelope>"
-                                              }
-                                 },
-                     "response":  [
-
-                                  ]
-                 },
-                 {
-                     "name":  "create-reservation-invalid-time-range",
-                     "event":  [
-                                   {
-                                       "listen":  "test",
-                                       "script":  {
-                                                      "exec":  [
-                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
-                                                                   "    pm.response.to.have.status(500);",
-                                                                   "});",
-                                                                   "",
-                                                                   "pm.test(\"returns invalid time fault\", function () {",
-                                                                   "    const body = pm.response.text();",
-                                                                   "    pm.expect(body).to.include(\"<SOAP-ENV:Fault>\");",
-                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
-                                                                   "    pm.expect(body).to.include(\"Invalid time range\");",
-                                                                   "});"
-                                                               ],
-                                                      "type":  "text/javascript"
-                                                  }
-                                   }
-                               ],
-                     "request":  {
-                                     "method":  "POST",
-                                     "header":  [
-                                                    {
-                                                        "key":  "Content-Type",
-                                                        "value":  "text/xml; charset=utf-8"
-                                                    },
-                                                    {
-                                                        "key":  "Accept",
-                                                        "value":  "text/xml"
-                                                    }
-                                                ],
-                                     "url":  {
-                                                 "raw":  "{{baseUrl}}/ws",
-                                                 "host":  [
-                                                              "{{baseUrl}}"
-                                                          ],
-                                                 "path":  [
-                                                              "ws"
-                                                          ]
-                                             },
-                                     "body":  {
-                                                  "mode":  "raw",
-                                                  "raw":  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <res:createReservationRequest>\n         <res:equipmentId>{{availableEquipmentId}}</res:equipmentId>\n         <res:startTime>{{invalidStartTime}}</res:startTime>\n         <res:endTime>{{invalidEndTime}}</res:endTime>\n      </res:createReservationRequest>\n   </soapenv:Body>\n</soapenv:Envelope>"
-                                              }
-                                 },
-                     "response":  [
-
-                                  ]
-                 },
-                 {
-                     "name":  "create-reservation-equipment-unavailable",
-                     "event":  [
-                                   {
-                                       "listen":  "test",
-                                       "script":  {
-                                                      "exec":  [
-                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
-                                                                   "    pm.response.to.have.status(500);",
-                                                                   "});",
-                                                                   "",
-                                                                   "pm.test(\"returns equipment unavailable fault\", function () {",
-                                                                   "    const body = pm.response.text();",
-                                                                   "    pm.expect(body).to.include(\"<SOAP-ENV:Fault>\");",
-                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
-                                                                   "    pm.expect(body).to.include(\"Equipment is not active\");",
-                                                                   "});"
-                                                               ],
-                                                      "type":  "text/javascript"
-                                                  }
-                                   }
-                               ],
-                     "request":  {
-                                     "method":  "POST",
-                                     "header":  [
-                                                    {
-                                                        "key":  "Content-Type",
-                                                        "value":  "text/xml; charset=utf-8"
-                                                    },
-                                                    {
-                                                        "key":  "Accept",
-                                                        "value":  "text/xml"
-                                                    }
-                                                ],
-                                     "url":  {
-                                                 "raw":  "{{baseUrl}}/ws",
-                                                 "host":  [
-                                                              "{{baseUrl}}"
-                                                          ],
-                                                 "path":  [
-                                                              "ws"
-                                                          ]
-                                             },
-                                     "body":  {
-                                                  "mode":  "raw",
-                                                  "raw":  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <res:createReservationRequest>\n         <res:equipmentId>{{maintenanceEquipmentId}}</res:equipmentId>\n         <res:startTime>{{validStartTime}}</res:startTime>\n         <res:endTime>{{validEndTime}}</res:endTime>\n      </res:createReservationRequest>\n   </soapenv:Body>\n</soapenv:Envelope>"
-                                              }
-                                 },
-                     "response":  [
-
-                                  ]
-                 },
-                 {
-                     "name":  "create-reservation-conflict",
-                     "event":  [
-                                   {
-                                       "listen":  "test",
-                                       "script":  {
-                                                      "exec":  [
-                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
-                                                                   "    pm.response.to.have.status(500);",
-                                                                   "});",
-                                                                   "",
-                                                                   "pm.test(\"returns reservation conflict fault\", function () {",
-                                                                   "    const body = pm.response.text();",
-                                                                   "    pm.expect(body).to.include(\"<SOAP-ENV:Fault>\");",
-                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
-                                                                   "    pm.expect(body).to.include(\"Equipment is not available\");",
-                                                                   "});"
-                                                               ],
-                                                      "type":  "text/javascript"
-                                                  }
-                                   }
-                               ],
-                     "request":  {
-                                     "method":  "POST",
-                                     "header":  [
-                                                    {
-                                                        "key":  "Content-Type",
-                                                        "value":  "text/xml; charset=utf-8"
-                                                    },
-                                                    {
-                                                        "key":  "Accept",
-                                                        "value":  "text/xml"
-                                                    }
-                                                ],
-                                     "url":  {
-                                                 "raw":  "{{baseUrl}}/ws",
-                                                 "host":  [
-                                                              "{{baseUrl}}"
-                                                          ],
-                                                 "path":  [
-                                                              "ws"
-                                                          ]
-                                             },
-                                     "body":  {
-                                                  "mode":  "raw",
-                                                  "raw":  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <res:createReservationRequest>\n         <res:equipmentId>{{bookedEquipmentId}}</res:equipmentId>\n         <res:startTime>{{overlapStartTime}}</res:startTime>\n         <res:endTime>{{overlapEndTime}}</res:endTime>\n      </res:createReservationRequest>\n   </soapenv:Body>\n</soapenv:Envelope>"
-                                              }
-                                 },
-                     "response":  [
-
-                                  ]
-                 },
-                 {
-                     "name":  "get-reservation-success",
-                     "event":  [
-                                   {
-                                       "listen":  "test",
-                                       "script":  {
-                                                      "exec":  [
-                                                                   "pm.test(\"returns HTTP 200\", function () {",
-                                                                   "    pm.response.to.have.status(200);",
-                                                                   "});",
-                                                                   "",
-                                                                   "pm.test(\"returns existing reservation\", function () {",
-                                                                   "    const body = pm.response.text();",
-                                                                   "    pm.expect(body).to.include(pm.collectionVariables.get(\"existingReservationId\"));",
-                                                                   "    pm.expect(body).to.include(pm.collectionVariables.get(\"bookedEquipmentId\"));",
-                                                                   "    pm.expect(body).to.include(\"Projector A\");",
-                                                                   "    pm.expect(body).to.not.include(\"<SOAP-ENV:Fault>\");",
-                                                                   "});"
-                                                               ],
-                                                      "type":  "text/javascript"
-                                                  }
-                                   }
-                               ],
-                     "request":  {
-                                     "method":  "POST",
-                                     "header":  [
-                                                    {
-                                                        "key":  "Content-Type",
-                                                        "value":  "text/xml; charset=utf-8"
-                                                    },
-                                                    {
-                                                        "key":  "Accept",
-                                                        "value":  "text/xml"
-                                                    }
-                                                ],
-                                     "url":  {
-                                                 "raw":  "{{baseUrl}}/ws",
-                                                 "host":  [
-                                                              "{{baseUrl}}"
-                                                          ],
-                                                 "path":  [
-                                                              "ws"
-                                                          ]
-                                             },
-                                     "body":  {
-                                                  "mode":  "raw",
-                                                  "raw":  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <res:getReservationRequest>\n         <res:reservationId>{{existingReservationId}}</res:reservationId>\n      </res:getReservationRequest>\n   </soapenv:Body>\n</soapenv:Envelope>"
-                                              }
-                                 },
-                     "response":  [
-
-                                  ]
-                 },
-                 {
-                     "name":  "get-reservation-not-found",
-                     "event":  [
-                                   {
-                                       "listen":  "test",
-                                       "script":  {
-                                                      "exec":  [
-                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
-                                                                   "    pm.response.to.have.status(500);",
-                                                                   "});",
-                                                                   "",
-                                                                   "pm.test(\"returns reservation not found fault\", function () {",
-                                                                   "    const body = pm.response.text();",
-                                                                   "    pm.expect(body).to.include(\"<SOAP-ENV:Fault>\");",
-                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
-                                                                   "    pm.expect(body).to.include(\"Reservation not found\");",
-                                                                   "});"
-                                                               ],
-                                                      "type":  "text/javascript"
-                                                  }
-                                   }
-                               ],
-                     "request":  {
-                                     "method":  "POST",
-                                     "header":  [
-                                                    {
-                                                        "key":  "Content-Type",
-                                                        "value":  "text/xml; charset=utf-8"
-                                                    },
-                                                    {
-                                                        "key":  "Accept",
-                                                        "value":  "text/xml"
-                                                    }
-                                                ],
-                                     "url":  {
-                                                 "raw":  "{{baseUrl}}/ws",
-                                                 "host":  [
-                                                              "{{baseUrl}}"
-                                                          ],
-                                                 "path":  [
-                                                              "ws"
-                                                          ]
-                                             },
-                                     "body":  {
-                                                  "mode":  "raw",
-                                                  "raw":  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <res:getReservationRequest>\n         <res:reservationId>{{missingReservationId}}</res:reservationId>\n      </res:getReservationRequest>\n   </soapenv:Body>\n</soapenv:Envelope>"
-                                              }
-                                 },
-                     "response":  [
-
-                                  ]
-                 },
-                 {
-                     "name":  "list-reservations-success",
-                     "event":  [
-                                   {
-                                       "listen":  "test",
-                                       "script":  {
-                                                      "exec":  [
-                                                                   "pm.test(\"returns HTTP 200\", function () {",
-                                                                   "    pm.response.to.have.status(200);",
-                                                                   "});",
-                                                                   "",
-                                                                   "pm.test(\"returns seeded reservations\", function () {",
-                                                                   "    const body = pm.response.text();",
-                                                                   "    pm.expect(body).to.include(pm.collectionVariables.get(\"existingReservationId\"));",
-                                                                   "    pm.expect(body).to.include(pm.collectionVariables.get(\"bookedEquipmentId\"));",
-                                                                   "    pm.expect(body).to.include(\"Projector A\");",
-                                                                   "    pm.expect(body).to.not.include(\"<SOAP-ENV:Fault>\");",
-                                                                   "});"
-                                                               ],
-                                                      "type":  "text/javascript"
-                                                  }
-                                   }
-                               ],
-                     "request":  {
-                                     "method":  "POST",
-                                     "header":  [
-                                                    {
-                                                        "key":  "Content-Type",
-                                                        "value":  "text/xml; charset=utf-8"
-                                                    },
-                                                    {
-                                                        "key":  "Accept",
-                                                        "value":  "text/xml"
-                                                    }
-                                                ],
-                                     "url":  {
-                                                 "raw":  "{{baseUrl}}/ws",
-                                                 "host":  [
-                                                              "{{baseUrl}}"
-                                                          ],
-                                                 "path":  [
-                                                              "ws"
-                                                          ]
-                                             },
-                                     "body":  {
-                                                  "mode":  "raw",
-                                                  "raw":  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <res:listReservationsRequest/>\n   </soapenv:Body>\n</soapenv:Envelope>"
-                                              }
-                                 },
-                     "response":  [
-
-                                  ]
-                 },
-                 {
-                     "name":  "delete-reservation-success",
-                     "event":  [
-                                   {
-                                       "listen":  "test",
-                                       "script":  {
-                                                      "exec":  [
-                                                                   "pm.test(\"returns HTTP 200\", function () {",
-                                                                   "    pm.response.to.have.status(200);",
-                                                                   "});",
-                                                                   "",
-                                                                   "pm.test(\"returns deleted reservation id\", function () {",
-                                                                   "    const body = pm.response.text();",
-                                                                   "    pm.expect(body).to.include(pm.collectionVariables.get(\"deleteReservationId\"));",
-                                                                   "    pm.expect(body).to.not.include(\"<SOAP-ENV:Fault>\");",
-                                                                   "});"
-                                                               ],
-                                                      "type":  "text/javascript"
-                                                  }
-                                   }
-                               ],
-                     "request":  {
-                                     "method":  "POST",
-                                     "header":  [
-                                                    {
-                                                        "key":  "Content-Type",
-                                                        "value":  "text/xml; charset=utf-8"
-                                                    },
-                                                    {
-                                                        "key":  "Accept",
-                                                        "value":  "text/xml"
-                                                    }
-                                                ],
-                                     "url":  {
-                                                 "raw":  "{{baseUrl}}/ws",
-                                                 "host":  [
-                                                              "{{baseUrl}}"
-                                                          ],
-                                                 "path":  [
-                                                              "ws"
-                                                          ]
-                                             },
-                                     "body":  {
-                                                  "mode":  "raw",
-                                                  "raw":  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <res:deleteReservationRequest>\n         <res:reservationId>{{deleteReservationId}}</res:reservationId>\n      </res:deleteReservationRequest>\n   </soapenv:Body>\n</soapenv:Envelope>"
-                                              }
-                                 },
-                     "response":  [
-
-                                  ]
-                 },
-                 {
-                     "name":  "delete-reservation-not-found",
-                     "event":  [
-                                   {
-                                       "listen":  "test",
-                                       "script":  {
-                                                      "exec":  [
-                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
-                                                                   "    pm.response.to.have.status(500);",
-                                                                   "});",
-                                                                   "",
-                                                                   "pm.test(\"returns reservation not found fault\", function () {",
-                                                                   "    const body = pm.response.text();",
-                                                                   "    pm.expect(body).to.include(\"<SOAP-ENV:Fault>\");",
-                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
-                                                                   "    pm.expect(body).to.include(\"Reservation not found\");",
-                                                                   "});"
-                                                               ],
-                                                      "type":  "text/javascript"
-                                                  }
-                                   }
-                               ],
-                     "request":  {
-                                     "method":  "POST",
-                                     "header":  [
-                                                    {
-                                                        "key":  "Content-Type",
-                                                        "value":  "text/xml; charset=utf-8"
-                                                    },
-                                                    {
-                                                        "key":  "Accept",
-                                                        "value":  "text/xml"
-                                                    }
-                                                ],
-                                     "url":  {
-                                                 "raw":  "{{baseUrl}}/ws",
-                                                 "host":  [
-                                                              "{{baseUrl}}"
-                                                          ],
-                                                 "path":  [
-                                                              "ws"
-                                                          ]
-                                             },
-                                     "body":  {
-                                                  "mode":  "raw",
-                                                  "raw":  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <res:deleteReservationRequest>\n         <res:reservationId>{{missingReservationId}}</res:reservationId>\n      </res:deleteReservationRequest>\n   </soapenv:Body>\n</soapenv:Envelope>"
-                                              }
-                                 },
-                     "response":  [
-
-                                  ]
-                 },
-                 {
-                     "name":  "create-reservation-missing-equipment-id",
-                     "event":  [
-                                   {
-                                       "listen":  "test",
-                                       "script":  {
-                                                      "exec":  [
-                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
-                                                                   "    pm.response.to.have.status(500);",
-                                                                   "});",
-                                                                   "",
-                                                                   "pm.test(\"returns missing equipment id fault\", function () {",
-                                                                   "    const body = pm.response.text();",
-                                                                   "    pm.expect(body).to.include(\"<SOAP-ENV:Fault>\");",
-                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
-                                                                   "    pm.expect(body).to.include(\"equipmentId is required\");",
-                                                                   "});"
-                                                               ],
-                                                      "type":  "text/javascript"
-                                                  }
-                                   }
-                               ],
-                     "request":  {
-                                     "method":  "POST",
-                                     "header":  [
-                                                    {
-                                                        "key":  "Content-Type",
-                                                        "value":  "text/xml; charset=utf-8"
-                                                    },
-                                                    {
-                                                        "key":  "Accept",
-                                                        "value":  "text/xml"
-                                                    }
-                                                ],
-                                     "url":  {
-                                                 "raw":  "{{baseUrl}}/ws",
-                                                 "host":  [
-                                                              "{{baseUrl}}"
-                                                          ],
-                                                 "path":  [
-                                                              "ws"
-                                                          ]
-                                             },
-                                     "body":  {
-                                                  "mode":  "raw",
-                                                  "raw":  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <res:createReservationRequest>          <res:startTime>{{validStartTime}}</res:startTime>          <res:endTime>{{validEndTime}}</res:endTime>       </res:createReservationRequest>\nNew-SoapItem\n   </soapenv:Body>\n</soapenv:Envelope>"
-                                              }
-                                 },
-                     "response":  [
-
-                                  ]
-                 },
-                 {
-                     "name":  "create-reservation-missing-end-time",
-                     "event":  [
-                                   {
-                                       "listen":  "test",
-                                       "script":  {
-                                                      "exec":  [
-                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
-                                                                   "    pm.response.to.have.status(500);",
-                                                                   "});",
-                                                                   "",
-                                                                   "pm.test(\"returns missing end time fault\", function () {",
-                                                                   "    const body = pm.response.text();",
-                                                                   "    pm.expect(body).to.include(\"<SOAP-ENV:Fault>\");",
-                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
-                                                                   "    pm.expect(body).to.include(\"endTime is required\");",
-                                                                   "});"
-                                                               ],
-                                                      "type":  "text/javascript"
-                                                  }
-                                   }
-                               ],
-                     "request":  {
-                                     "method":  "POST",
-                                     "header":  [
-                                                    {
-                                                        "key":  "Content-Type",
-                                                        "value":  "text/xml; charset=utf-8"
-                                                    },
-                                                    {
-                                                        "key":  "Accept",
-                                                        "value":  "text/xml"
-                                                    }
-                                                ],
-                                     "url":  {
-                                                 "raw":  "{{baseUrl}}/ws",
-                                                 "host":  [
-                                                              "{{baseUrl}}"
-                                                          ],
-                                                 "path":  [
-                                                              "ws"
-                                                          ]
-                                             },
-                                     "body":  {
-                                                  "mode":  "raw",
-                                                  "raw":  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <res:createReservationRequest>\n         <res:equipmentId>{{availableEquipmentId}}</res:equipmentId>\n         <res:startTime>{{validStartTime}}</res:startTime>\n      </res:createReservationRequest>\n   </soapenv:Body>\n</soapenv:Envelope>"
-                                              }
-                                 },
-                     "response":  [
-
-                                  ]
-                 },
-                 {
-                     "name":  "get-reservation-invalid-id",
-                     "event":  [
-                                   {
-                                       "listen":  "test",
-                                       "script":  {
-                                                      "exec":  [
-                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
-                                                                   "    pm.response.to.have.status(500);",
-                                                                   "});",
-                                                                   "",
-                                                                   "pm.test(\"returns invalid reservation id fault\", function () {",
-                                                                   "    const body = pm.response.text();",
-                                                                   "    pm.expect(body).to.include(\"<SOAP-ENV:Fault>\");",
-                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
-                                                                   "    pm.expect(body).to.include(\"reservationId must be a valid UUID\");",
-                                                                   "});"
-                                                               ],
-                                                      "type":  "text/javascript"
-                                                  }
-                                   }
-                               ],
-                     "request":  {
-                                     "method":  "POST",
-                                     "header":  [
-                                                    {
-                                                        "key":  "Content-Type",
-                                                        "value":  "text/xml; charset=utf-8"
-                                                    },
-                                                    {
-                                                        "key":  "Accept",
-                                                        "value":  "text/xml"
-                                                    }
-                                                ],
-                                     "url":  {
-                                                 "raw":  "{{baseUrl}}/ws",
-                                                 "host":  [
-                                                              "{{baseUrl}}"
-                                                          ],
-                                                 "path":  [
-                                                              "ws"
-                                                          ]
-                                             },
-                                     "body":  {
-                                                  "mode":  "raw",
-                                                  "raw":  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <res:getReservationRequest>\n         <res:reservationId>not-a-uuid</res:reservationId>\n      </res:getReservationRequest>\n   </soapenv:Body>\n</soapenv:Envelope>"
-                                              }
-                                 },
-                     "response":  [
-
-                                  ]
-                 },
-                 {
-                     "name":  "get-reservation-missing-id",
-                     "event":  [
-                                   {
-                                       "listen":  "test",
-                                       "script":  {
-                                                      "exec":  [
-                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
-                                                                   "    pm.response.to.have.status(500);",
-                                                                   "});",
-                                                                   "",
-                                                                   "pm.test(\"returns missing reservation id fault\", function () {",
-                                                                   "    const body = pm.response.text();",
-                                                                   "    pm.expect(body).to.include(\"<SOAP-ENV:Fault>\");",
-                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
-                                                                   "    pm.expect(body).to.include(\"reservationId is required\");",
-                                                                   "});"
-                                                               ],
-                                                      "type":  "text/javascript"
-                                                  }
-                                   }
-                               ],
-                     "request":  {
-                                     "method":  "POST",
-                                     "header":  [
-                                                    {
-                                                        "key":  "Content-Type",
-                                                        "value":  "text/xml; charset=utf-8"
-                                                    },
-                                                    {
-                                                        "key":  "Accept",
-                                                        "value":  "text/xml"
-                                                    }
-                                                ],
-                                     "url":  {
-                                                 "raw":  "{{baseUrl}}/ws",
-                                                 "host":  [
-                                                              "{{baseUrl}}"
-                                                          ],
-                                                 "path":  [
-                                                              "ws"
-                                                          ]
-                                             },
-                                     "body":  {
-                                                  "mode":  "raw",
-                                                  "raw":  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <res:getReservationRequest/>\n   </soapenv:Body>\n</soapenv:Envelope>"
-                                              }
-                                 },
-                     "response":  [
-
-                                  ]
-                 },
-                 {
-                     "name":  "delete-reservation-invalid-id",
-                     "event":  [
-                                   {
-                                       "listen":  "test",
-                                       "script":  {
-                                                      "exec":  [
-                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
-                                                                   "    pm.response.to.have.status(500);",
-                                                                   "});",
-                                                                   "",
-                                                                   "pm.test(\"returns invalid reservation id fault\", function () {",
-                                                                   "    const body = pm.response.text();",
-                                                                   "    pm.expect(body).to.include(\"<SOAP-ENV:Fault>\");",
-                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
-                                                                   "    pm.expect(body).to.include(\"reservationId must be a valid UUID\");",
-                                                                   "});"
-                                                               ],
-                                                      "type":  "text/javascript"
-                                                  }
-                                   }
-                               ],
-                     "request":  {
-                                     "method":  "POST",
-                                     "header":  [
-                                                    {
-                                                        "key":  "Content-Type",
-                                                        "value":  "text/xml; charset=utf-8"
-                                                    },
-                                                    {
-                                                        "key":  "Accept",
-                                                        "value":  "text/xml"
-                                                    }
-                                                ],
-                                     "url":  {
-                                                 "raw":  "{{baseUrl}}/ws",
-                                                 "host":  [
-                                                              "{{baseUrl}}"
-                                                          ],
-                                                 "path":  [
-                                                              "ws"
-                                                          ]
-                                             },
-                                     "body":  {
-                                                  "mode":  "raw",
-                                                  "raw":  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <res:deleteReservationRequest>\n         <res:reservationId>not-a-uuid</res:reservationId>\n      </res:deleteReservationRequest>\n   </soapenv:Body>\n</soapenv:Envelope>"
-                                              }
-                                 },
-                     "response":  [
-
-                                  ]
-                 },
-                 {
-                     "name":  "delete-reservation-missing-id",
-                     "event":  [
-                                   {
-                                       "listen":  "test",
-                                       "script":  {
-                                                      "exec":  [
-                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
-                                                                   "    pm.response.to.have.status(500);",
-                                                                   "});",
-                                                                   "",
-                                                                   "pm.test(\"returns missing reservation id fault\", function () {",
-                                                                   "    const body = pm.response.text();",
-                                                                   "    pm.expect(body).to.include(\"<SOAP-ENV:Fault>\");",
-                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
-                                                                   "    pm.expect(body).to.include(\"reservationId is required\");",
-                                                                   "});"
-                                                               ],
-                                                      "type":  "text/javascript"
-                                                  }
-                                   }
-                               ],
-                     "request":  {
-                                     "method":  "POST",
-                                     "header":  [
-                                                    {
-                                                        "key":  "Content-Type",
-                                                        "value":  "text/xml; charset=utf-8"
-                                                    },
-                                                    {
-                                                        "key":  "Accept",
-                                                        "value":  "text/xml"
-                                                    }
-                                                ],
-                                     "url":  {
-                                                 "raw":  "{{baseUrl}}/ws",
-                                                 "host":  [
-                                                              "{{baseUrl}}"
-                                                          ],
-                                                 "path":  [
-                                                              "ws"
-                                                          ]
-                                             },
-                                     "body":  {
-                                                  "mode":  "raw",
-                                                  "raw":  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <res:deleteReservationRequest/>\n   </soapenv:Body>\n</soapenv:Envelope>"
-                                              }
-                                 },
-                     "response":  [
-
-                                  ]
-                 },
-                 {
-                     "name":  "create-reservation-retired-equipment",
-                     "event":  [
-                                   {
-                                       "listen":  "test",
-                                       "script":  {
-                                                      "exec":  [
-                                                                   "pm.test(\"returns HTTP 500 SOAP fault\", function () {",
-                                                                   "    pm.response.to.have.status(500);",
-                                                                   "});",
-                                                                   "",
-                                                                   "pm.test(\"returns retired equipment unavailable fault\", function () {",
-                                                                   "    const body = pm.response.text();",
-                                                                   "    pm.expect(body).to.include(\"<SOAP-ENV:Fault>\");",
-                                                                   "    pm.expect(body).to.include(\"SOAP-ENV:Client\");",
-                                                                   "    pm.expect(body).to.include(\"Equipment is not active\");",
-                                                                   "});"
-                                                               ],
-                                                      "type":  "text/javascript"
-                                                  }
-                                   }
-                               ],
-                     "request":  {
-                                     "method":  "POST",
-                                     "header":  [
-                                                    {
-                                                        "key":  "Content-Type",
-                                                        "value":  "text/xml; charset=utf-8"
-                                                    },
-                                                    {
-                                                        "key":  "Accept",
-                                                        "value":  "text/xml"
-                                                    }
-                                                ],
-                                     "url":  {
-                                                 "raw":  "{{baseUrl}}/ws",
-                                                 "host":  [
-                                                              "{{baseUrl}}"
-                                                          ],
-                                                 "path":  [
-                                                              "ws"
-                                                          ]
-                                             },
-                                     "body":  {
-                                                  "mode":  "raw",
-                                                  "raw":  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <res:createReservationRequest>\n         <res:equipmentId>{{retiredEquipmentId}}</res:equipmentId>\n         <res:startTime>{{validStartTime}}</res:startTime>\n         <res:endTime>{{validEndTime}}</res:endTime>\n      </res:createReservationRequest>\n   </soapenv:Body>\n</soapenv:Envelope>"
-                                              }
-                                 },
-                     "response":  [
-
-                                  ]
-                 },
-                 {
-                     "name":  "create-reservation-boundary-no-conflict-before",
-                     "event":  [
-                                   {
-                                       "listen":  "test",
-                                       "script":  {
-                                                      "exec":  [
-                                                                   "pm.test(\"returns HTTP 200\", function () {",
-                                                                   "    pm.response.to.have.status(200);",
-                                                                   "});",
-                                                                   "",
-                                                                   "pm.test(\"allows reservation ending when seeded reservation starts\", function () {",
-                                                                   "    const body = pm.response.text();",
-                                                                   "    pm.expect(body).to.match(/<[^>]*:?reservationId>/);",
-                                                                   "    pm.expect(body).to.include(pm.collectionVariables.get(\"bookedEquipmentId\"));",
-                                                                   "    pm.expect(body).to.include(\"2026-06-01T07:00:00\");",
-                                                                   "    pm.expect(body).to.include(\"2026-06-01T09:00:00\");",
-                                                                   "    pm.expect(body).to.not.include(\"<SOAP-ENV:Fault>\");",
-                                                                   "});"
-                                                               ],
-                                                      "type":  "text/javascript"
-                                                  }
-                                   }
-                               ],
-                     "request":  {
-                                     "method":  "POST",
-                                     "header":  [
-                                                    {
-                                                        "key":  "Content-Type",
-                                                        "value":  "text/xml; charset=utf-8"
-                                                    },
-                                                    {
-                                                        "key":  "Accept",
-                                                        "value":  "text/xml"
-                                                    }
-                                                ],
-                                     "url":  {
-                                                 "raw":  "{{baseUrl}}/ws",
-                                                 "host":  [
-                                                              "{{baseUrl}}"
-                                                          ],
-                                                 "path":  [
-                                                              "ws"
-                                                          ]
-                                             },
-                                     "body":  {
-                                                  "mode":  "raw",
-                                                  "raw":  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <res:createReservationRequest>\n         <res:equipmentId>{{bookedEquipmentId}}</res:equipmentId>\n         <res:startTime>{{boundaryBeforeStartTime}}</res:startTime>\n         <res:endTime>{{boundaryBeforeEndTime}}</res:endTime>\n      </res:createReservationRequest>\n   </soapenv:Body>\n</soapenv:Envelope>"
-                                              }
-                                 },
-                     "response":  [
-
-                                  ]
-                 },
-                 {
-                     "name":  "create-reservation-boundary-no-conflict-after",
-                     "event":  [
-                                   {
-                                       "listen":  "test",
-                                       "script":  {
-                                                      "exec":  [
-                                                                   "pm.test(\"returns HTTP 200\", function () {",
-                                                                   "    pm.response.to.have.status(200);",
-                                                                   "});",
-                                                                   "",
-                                                                   "pm.test(\"allows reservation starting when seeded reservation ends\", function () {",
-                                                                   "    const body = pm.response.text();",
-                                                                   "    pm.expect(body).to.match(/<[^>]*:?reservationId>/);",
-                                                                   "    pm.expect(body).to.include(pm.collectionVariables.get(\"bookedEquipmentId\"));",
-                                                                   "    pm.expect(body).to.include(\"2026-06-01T11:00:00\");",
-                                                                   "    pm.expect(body).to.include(\"2026-06-01T12:00:00\");",
-                                                                   "    pm.expect(body).to.not.include(\"<SOAP-ENV:Fault>\");",
-                                                                   "});"
-                                                               ],
-                                                      "type":  "text/javascript"
-                                                  }
-                                   }
-                               ],
-                     "request":  {
-                                     "method":  "POST",
-                                     "header":  [
-                                                    {
-                                                        "key":  "Content-Type",
-                                                        "value":  "text/xml; charset=utf-8"
-                                                    },
-                                                    {
-                                                        "key":  "Accept",
-                                                        "value":  "text/xml"
-                                                    }
-                                                ],
-                                     "url":  {
-                                                 "raw":  "{{baseUrl}}/ws",
-                                                 "host":  [
-                                                              "{{baseUrl}}"
-                                                          ],
-                                                 "path":  [
-                                                              "ws"
-                                                          ]
-                                             },
-                                     "body":  {
-                                                  "mode":  "raw",
-                                                  "raw":  "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<soapenv:Envelope xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"\n                  xmlns:res=\"http://groupmergeworks.com/sirmeows/equipment-reservation-soap-api\">\n   <soapenv:Header/>\n   <soapenv:Body>\n      <res:createReservationRequest>\n         <res:equipmentId>{{bookedEquipmentId}}</res:equipmentId>\n         <res:startTime>{{boundaryAfterStartTime}}</res:startTime>\n         <res:endTime>{{boundaryAfterEndTime}}</res:endTime>\n      </res:createReservationRequest>\n   </soapenv:Body>\n</soapenv:Envelope>"
-                                              }
-                                 },
-                     "response":  [
-
-                                  ]
-                 },
-                 {
-                     "name":  "wsdl-available",
-                     "event":  [
-                                   {
-                                       "listen":  "test",
-                                       "script":  {
-                                                      "exec":  [
-                                                                   "pm.test(\"returns HTTP 200\", function () {",
-                                                                   "    pm.response.to.have.status(200);",
-                                                                   "});",
-                                                                   "",
-                                                                   "pm.test(\"returns WSDL contract\", function () {",
-                                                                   "    const body = pm.response.text();",
-                                                                   "    pm.expect(body).to.include(\"wsdl:definitions\");",
-                                                                   "    pm.expect(body).to.include(\"createReservationRequest\");",
-                                                                   "    pm.expect(body).to.include(\"getReservationRequest\");",
-                                                                   "    pm.expect(body).to.include(\"listReservationsRequest\");",
-                                                                   "    pm.expect(body).to.include(\"deleteReservationRequest\");",
-                                                                   "});"
-                                                               ],
-                                                      "type":  "text/javascript"
-                                                  }
-                                   }
-                               ],
-                     "request":  {
-                                     "method":  "GET",
-                                     "header":  [
-
-                                                ],
-                                     "url":  {
-                                                 "raw":  "{{baseUrl}}/ws/equipment-reservation-soap-api.wsdl",
-                                                 "host":  [
-                                                              "{{baseUrl}}"
-                                                          ],
-                                                 "path":  [
-                                                              "ws",
-                                                              "equipment-reservation-soap-api.wsdl"
-                                                          ]
-                                             }
-                                 },
-                     "response":  [
-
-                                  ]
-                 }
-             ]
+                 ]
 }
-
-
-
