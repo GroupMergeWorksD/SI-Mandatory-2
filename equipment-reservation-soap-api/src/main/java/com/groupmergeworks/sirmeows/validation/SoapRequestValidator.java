@@ -1,6 +1,7 @@
 package com.groupmergeworks.sirmeows.validation;
 
 import com.groupmergeworks.sirmeows.exception.InvalidRequestException;
+import com.groupmergeworks.sirmeows.exception.InvalidUuidException;
 
 import java.util.UUID;
 
@@ -11,19 +12,19 @@ public final class SoapRequestValidator {
 
     public static UUID validateAndParseUuid(String value, String fieldName) {
         if (value == null || value.isBlank()) {
-            throw new InvalidRequestException(fieldName + " is required.");
+            throw new InvalidRequestException(fieldName);
         }
 
         try {
             return UUID.fromString(value);
         } catch (IllegalArgumentException exception) {
-            throw new InvalidRequestException(fieldName + " must be a valid UUID.");
+            throw new InvalidUuidException(fieldName);
         }
     }
 
     public static void validateRequired(Object value, String fieldName) {
         if (value == null) {
-            throw new InvalidRequestException(fieldName + " is required.");
+            throw new InvalidRequestException(fieldName);
         }
     }
 }

@@ -1,11 +1,10 @@
 package com.groupmergeworks.sirmeows.exception;
 
-import org.springframework.ws.soap.server.endpoint.annotation.FaultCode;
-import org.springframework.ws.soap.server.endpoint.annotation.SoapFault;
-
-@SoapFault(faultCode = FaultCode.CLIENT)
 public class InvalidReservationTimeException extends RuntimeException {
-    public InvalidReservationTimeException(String message) {
+
+    private static final String message = "Invalid time range. Start time must be before end time.";
+
+    public InvalidReservationTimeException() {
         super(message);
     }
 }
